@@ -477,6 +477,79 @@ const server = http.createServer(async (req, res) => {
       return json(res, { ok: true });
     }
 
+    // ── Sections Manager ────────────────────────────────────────────────────────
+
+    // GET /api/sections (public)
+    if (section === 'sections' && !id && req.method === 'GET') {
+      const { data } = await db.from('page_sections').select('*').order('position');
+      if (!data || !data.length) {
+        const defaults = [
+          { slug:'about',     name:'About',     visible:true,  position:1,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'facilities',name:'Facilities', visible:true,  position:2,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'programs',  name:'Programs',   visible:true,  position:3,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'events',    name:'Events',     visible:true,  position:4,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'team',      name:'Team',       visible:true,  position:5,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'projects',  name:'Projects',   visible:true,  position:6,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'news',      name:'News',       visible:true,  position:7,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'faq',       name:'FAQ',        visible:true,  position:8,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'contact',   name:'Contact',    visible:true,  position:9,  type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+          { slug:'partners',  name:'Partners',   visible:true,  position:10, type:'builtin', section_type:'builtin', title:'', subtitle:'', content:[] },
+        ];
+        const { data: seeded } = await db.from('page_sections').insert(defaults).select();
+        return json(res, seeded || defaults);
+      }
+      return json(res, data);
+    }
+
+    // POST /api/sections (admin — add custom section)
+    if (section === 'sections' && !id && req.method === 'POST') {
+      if (!checkAuth(req)) return json(res, { error: 'Unauthorized' }, 401);
+      let body; try { body = JSON.parse(await getBody(req)); } catch(_) { return json(res, { error: 'Bad request' }, 400); }
+      const name = sanitize(body.name || '');
+      if (!name) return json(res, { error: 'Name is required.' }, 400);
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now();
+      const { data: existing } = await db.from('page_sections').select('position').order('position',{ascending:false}).limit(1);
+      const nextPos = existing?.[0] ? existing[0].position + 1 : 11;
+      const { data, error } = await db.from('page_sections').insert({
+        slug, name,
+        visible: true,
+        position: nextPos,
+        type: 'custom',
+        section_type: sanitize(body.section_type || 'text'),
+        title: sanitize(body.title || ''),
+        subtitle: sanitize(body.subtitle || ''),
+        content: body.content || [],
+      }).select().single();
+      if (error) return json(res, { error: error.message }, 400);
+      return json(res, data);
+    }
+
+    // PUT /api/sections/:id (admin — update visibility/content)
+    if (section === 'sections' && id && req.method === 'PUT') {
+      if (!checkAuth(req)) return json(res, { error: 'Unauthorized' }, 401);
+      let body; try { body = JSON.parse(await getBody(req)); } catch(_) { return json(res, { error: 'Bad request' }, 400); }
+      const update = {};
+      if ('visible'      in body) update.visible      = body.visible;
+      if ('position'     in body) update.position     = body.position;
+      if ('name'         in body) update.name         = sanitize(body.name);
+      if ('title'        in body) update.title        = sanitize(body.title);
+      if ('subtitle'     in body) update.subtitle     = sanitize(body.subtitle);
+      if ('content'      in body) update.content      = body.content;
+      if ('section_type' in body) update.section_type = sanitize(body.section_type);
+      const { data, error } = await db.from('page_sections').update(update).eq('id', id).select().single();
+      if (error) return json(res, { error: error.message }, 400);
+      return json(res, data);
+    }
+
+    // DELETE /api/sections/:id (admin — only custom)
+    if (section === 'sections' && id && req.method === 'DELETE') {
+      if (!checkAuth(req)) return json(res, { error: 'Unauthorized' }, 401);
+      const { data: sec } = await db.from('page_sections').select('type').eq('id', id).single();
+      if (sec?.type === 'builtin') return json(res, { error: 'Built-in sections cannot be deleted. You can hide them instead.' }, 400);
+      await db.from('page_sections').delete().eq('id', id);
+      return json(res, { ok: true });
+    }
+
     const TABLES = ['programs','news','faq','events','team'];
     if (!TABLES.includes(section)) return json(res, { error: 'Unknown section' }, 404);
 

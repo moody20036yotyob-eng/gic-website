@@ -131,6 +131,7 @@ tr:hover td{background:rgba(191,0,255,.04)}
   <div class="nav-item" onclick="nav('registrations')" data-page="registrations"><span>🎟️</span> Registrations <span id="reg-badge" style="display:none;background:#4ade80;color:#000;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></div>
   <div class="nav-item" onclick="nav('analytics')" data-page="analytics"><span>📊</span> Analytics</div>
   <div class="nav-item" onclick="nav('messages')" data-page="messages"><span>✉️</span> Messages <span id="unread-badge" style="display:none;background:#BF00FF;color:#fff;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></div>
+  <div class="nav-item" onclick="nav('sections')" data-page="sections"><span>🗂️</span> Sections</div>
   <div class="nav-sep"></div>
   <div class="sb-footer">
     <span style="color:rgba(232,224,255,.3);font-size:.75rem">Logged in as Admin</span>
@@ -240,6 +241,58 @@ tr:hover td{background:rgba(191,0,255,.04)}
   <!-- Messages -->
   <div class="page" id="page-messages">
     <div id="messages-list"></div>
+  </div>
+
+  <!-- Sections -->
+  <div class="page" id="page-sections">
+    <div style="max-width:760px">
+      <div class="section-header" style="margin-bottom:20px">
+        <h3>Page Sections</h3>
+        <button class="btn btn-primary btn-sm" onclick="openAddSection()">+ Add New Section</button>
+      </div>
+      <div style="background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:.82rem;color:rgba(232,224,255,.6)">
+        Toggle visibility of built-in sections or add custom sections that appear on the main website. Built-in sections cannot be deleted — only hidden.
+      </div>
+      <div id="sections-list"></div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal-bg" id="addSectionModal" onclick="if(event.target===this)closeAddSection()">
+      <div class="modal" style="max-width:560px">
+        <h3>Add New Section</h3>
+        <div class="field"><label>Section Name</label><input id="ns-name" placeholder="e.g. Gallery, Sponsors, Awards"/></div>
+        <div class="field"><label>Section Type</label>
+          <select id="ns-type" onchange="updateSectionTypeFields()" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none">
+            <option value="text">Text Block — title, subtitle, paragraph</option>
+            <option value="cards">Cards Grid — title + grid of icon/title/description cards</option>
+            <option value="faq">FAQ Style — title + question/answer pairs</option>
+            <option value="html">Custom HTML — paste raw HTML content</option>
+          </select>
+        </div>
+        <div class="field"><label>Section Title</label><input id="ns-title" placeholder="e.g. Our Gallery"/></div>
+        <div class="field"><label>Subtitle / Description</label><input id="ns-subtitle" placeholder="Short line shown below the title"/></div>
+        <div id="ns-type-fields"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="closeAddSection()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveNewSection()">Add Section</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Custom Section Modal -->
+    <div class="modal-bg" id="editSectionModal" onclick="if(event.target===this)closeEditSection()">
+      <div class="modal" style="max-width:620px">
+        <h3>Edit Section</h3>
+        <div class="field"><label>Section Name</label><input id="es-name"/></div>
+        <div class="field"><label>Section Title</label><input id="es-title"/></div>
+        <div class="field"><label>Subtitle</label><input id="es-subtitle"/></div>
+        <div id="es-content-wrap"></div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="closeEditSection()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveEditSection()">Save Changes</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -361,6 +414,7 @@ function nav(page){
     const typeMap={programs:'program',news:'news-item',events:'event',faq:'faq-item',team:'team-member'};
     act.innerHTML='<button class="btn btn-primary" onclick="openModal(\''+typeMap[page]+'\')">+ Add</button>';
   }
+  if(page==='sections') loadSections();
 }
 
 // Dashboard
@@ -836,6 +890,181 @@ function empty(msg){return`<div style="text-align:center;padding:60px 20px;color
 function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';setTimeout(()=>t.className='toast',3000);}
 
 document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+
+// ===== SECTIONS MANAGER =====
+let SECTIONS = [];
+let editingSectionId = null;
+
+async function loadSections(){
+  const r = await fetch(`${API}/api/sections`);
+  if(!r.ok){ document.getElementById('sections-list').innerHTML='<p style="color:#f87171">Failed to load sections.</p>'; return; }
+  SECTIONS = await r.json();
+  renderSections();
+}
+
+function renderSections(){
+  const el = document.getElementById('sections-list');
+  if(!el) return;
+  if(!SECTIONS.length){ el.innerHTML='<p style="color:rgba(232,224,255,.4);padding:20px 0">No sections found.</p>'; return; }
+  el.innerHTML = SECTIONS.map((s,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(6,0,15,.6);border:1px solid rgba(191,0,255,${s.visible?'.25':'.1'});border-radius:12px;padding:14px 18px;margin-bottom:10px;opacity:${s.visible?1:.55};transition:all .3s">
+      <div style="display:flex;flex-direction:column;gap:3px;margin-right:4px">
+        <button onclick="moveSectionUp(${s.id})" ${i===0?'disabled':''} style="background:none;border:none;color:rgba(232,224,255,.4);cursor:pointer;font-size:11px;padding:1px 5px;line-height:1" title="Move up">▲</button>
+        <button onclick="moveSectionDown(${s.id})" ${i===SECTIONS.length-1?'disabled':''} style="background:none;border:none;color:rgba(232,224,255,.4);cursor:pointer;font-size:11px;padding:1px 5px;line-height:1" title="Move down">▼</button>
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-weight:600;color:#EDE0FF;font-size:.95rem">${esc(s.name)}</span>
+          <span style="font-size:.7rem;padding:2px 8px;border-radius:6px;background:${s.type==='builtin'?'rgba(0,229,255,.1)':'rgba(167,139,250,.12)'};border:1px solid ${s.type==='builtin'?'rgba(0,229,255,.25)':'rgba(167,139,250,.3)'};color:${s.type==='builtin'?'#00e5ff':'#a78bfa'}">${s.type==='builtin'?'Built-in':'Custom'}</span>
+          ${s.title?`<span style="font-size:.8rem;color:rgba(232,224,255,.45)">${esc(s.title)}</span>`:''}
+        </div>
+        ${s.subtitle?`<div style="font-size:.78rem;color:rgba(232,224,255,.35);margin-top:3px">${esc(s.subtitle)}</div>`:''}
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+        <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.82rem;color:rgba(232,224,255,.55)">
+          <div onclick="toggleSectionVisibility(${s.id},${!s.visible})" style="width:38px;height:20px;border-radius:10px;background:${s.visible?'#7c3aed':'rgba(255,255,255,.1)'};border:1px solid ${s.visible?'rgba(124,58,237,.5)':'rgba(255,255,255,.15)'};position:relative;cursor:pointer;transition:background .2s;flex-shrink:0">
+            <div style="width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:2px;left:${s.visible?'21px':'3px'};transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>
+          </div>
+          ${s.visible?'Visible':'Hidden'}
+        </label>
+        ${s.type!=='builtin'?`<button class="btn btn-outline btn-sm" onclick="openEditSection(${s.id})">Edit</button>`:''}
+        ${s.type!=='builtin'?`<button class="btn btn-danger btn-sm" onclick="deleteSection(${s.id})">Delete</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+async function toggleSectionVisibility(id, visible){
+  const r = await fetch(`${API}/api/sections/${id}`,{method:'PUT',headers:ah(),body:JSON.stringify({visible})});
+  if(r.ok){ const s=SECTIONS.find(x=>x.id===id); if(s) s.visible=visible; renderSections(); toast(visible?'Section shown':'Section hidden','success'); }
+  else toast('Error updating visibility','error');
+}
+
+async function moveSectionUp(id){
+  const idx = SECTIONS.findIndex(s=>s.id===id);
+  if(idx<=0) return;
+  await swapPositions(SECTIONS[idx], SECTIONS[idx-1]);
+}
+async function moveSectionDown(id){
+  const idx = SECTIONS.findIndex(s=>s.id===id);
+  if(idx<0||idx>=SECTIONS.length-1) return;
+  await swapPositions(SECTIONS[idx], SECTIONS[idx+1]);
+}
+async function swapPositions(a, b){
+  const [pa,pb] = [a.position, b.position];
+  const r1 = await fetch(`${API}/api/sections/${a.id}`,{method:'PUT',headers:ah(),body:JSON.stringify({position:pb})});
+  const r2 = await fetch(`${API}/api/sections/${b.id}`,{method:'PUT',headers:ah(),body:JSON.stringify({position:pa})});
+  if(r1.ok&&r2.ok){ a.position=pb; b.position=pa; SECTIONS.sort((x,y)=>x.position-y.position); renderSections(); }
+  else toast('Error reordering','error');
+}
+
+function openAddSection(){
+  document.getElementById('ns-name').value='';
+  document.getElementById('ns-title').value='';
+  document.getElementById('ns-subtitle').value='';
+  document.getElementById('ns-type').value='text';
+  updateSectionTypeFields();
+  document.getElementById('addSectionModal').style.display='flex';
+}
+function closeAddSection(){ document.getElementById('addSectionModal').style.display='none'; }
+
+function updateSectionTypeFields(){
+  const type = document.getElementById('ns-type').value;
+  const wrap = document.getElementById('ns-type-fields');
+  if(type==='text'){
+    wrap.innerHTML=`<div class="field"><label>Content Paragraph</label><textarea id="ns-content-text" rows="4" placeholder="Body text for this section..." style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical"></textarea></div>`;
+  } else if(type==='cards'){
+    wrap.innerHTML=`<div class="field"><label>Cards (one per line: Icon | Title | Description)</label><textarea id="ns-content-cards" rows="6" placeholder="🎯 | Robotics | Build and program robots&#10;💡 | Innovation | Creative problem solving" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical"></textarea></div>`;
+  } else if(type==='faq'){
+    wrap.innerHTML=`<div class="field"><label>FAQ Items (one per line: Question | Answer)</label><textarea id="ns-content-faq" rows="6" placeholder="What is GIC? | The Games Innovation Center is..." style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical"></textarea></div>`;
+  } else if(type==='html'){
+    wrap.innerHTML=`<div class="field"><label>Custom HTML</label><textarea id="ns-content-html" rows="8" placeholder="<div>...</div>" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.85rem;font-family:monospace;outline:none;resize:vertical"></textarea></div>`;
+  }
+}
+
+async function saveNewSection(){
+  const name = document.getElementById('ns-name').value.trim();
+  const type = document.getElementById('ns-type').value;
+  const title = document.getElementById('ns-title').value.trim();
+  const subtitle = document.getElementById('ns-subtitle').value.trim();
+  if(!name){ toast('Section name is required','error'); return; }
+  let content = [];
+  if(type==='text'){
+    const txt = (document.getElementById('ns-content-text')||{}).value||'';
+    content = [{text:txt}];
+  } else if(type==='cards'){
+    const lines = ((document.getElementById('ns-content-cards')||{}).value||'').split('\n').filter(l=>l.trim());
+    content = lines.map(l=>{ const [icon='',t='',d=''] = l.split('|').map(x=>x.trim()); return {icon,title:t,description:d}; });
+  } else if(type==='faq'){
+    const lines = ((document.getElementById('ns-content-faq')||{}).value||'').split('\n').filter(l=>l.trim());
+    content = lines.map(l=>{ const [q='',a=''] = l.split('|').map(x=>x.trim()); return {q,a}; });
+  } else if(type==='html'){
+    const html = (document.getElementById('ns-content-html')||{}).value||'';
+    content = [{html}];
+  }
+  const r = await fetch(`${API}/api/sections`,{method:'POST',headers:ah(),body:JSON.stringify({name,section_type:type,title,subtitle,content})});
+  if(r.ok){ const sec=await r.json(); SECTIONS.push(sec); SECTIONS.sort((a,b)=>a.position-b.position); renderSections(); closeAddSection(); toast('Section added','success'); }
+  else { const e=await r.json().catch(()=>{}); toast(e?.error||'Error adding section','error'); }
+}
+
+function openEditSection(id){
+  const s = SECTIONS.find(x=>x.id===id);
+  if(!s) return;
+  editingSectionId = id;
+  document.getElementById('es-name').value = s.name||'';
+  document.getElementById('es-title').value = s.title||'';
+  document.getElementById('es-subtitle').value = s.subtitle||'';
+  const wrap = document.getElementById('es-content-wrap');
+  const type = s.section_type||'text';
+  if(type==='text'){
+    const txt = (s.content&&s.content[0]&&s.content[0].text)||'';
+    wrap.innerHTML=`<div class="field"><label>Content Paragraph</label><textarea id="es-content-text" rows="4" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical">${esc(txt)}</textarea></div>`;
+  } else if(type==='cards'){
+    const lines = (s.content||[]).map(c=>`${c.icon||''}|${c.title||''}|${c.description||''}`).join('\n');
+    wrap.innerHTML=`<div class="field"><label>Cards (Icon | Title | Description)</label><textarea id="es-content-cards" rows="6" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical">${esc(lines)}</textarea></div>`;
+  } else if(type==='faq'){
+    const lines = (s.content||[]).map(c=>`${c.q||''}|${c.a||''}`).join('\n');
+    wrap.innerHTML=`<div class="field"><label>FAQ (Question | Answer)</label><textarea id="es-content-faq" rows="6" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;resize:vertical">${esc(lines)}</textarea></div>`;
+  } else if(type==='html'){
+    const html = (s.content&&s.content[0]&&s.content[0].html)||'';
+    wrap.innerHTML=`<div class="field"><label>Custom HTML</label><textarea id="es-content-html" rows="8" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.85rem;font-family:monospace;outline:none;resize:vertical">${esc(html)}</textarea></div>`;
+  } else { wrap.innerHTML=''; }
+  document.getElementById('editSectionModal').style.display='flex';
+}
+function closeEditSection(){ document.getElementById('editSectionModal').style.display='none'; editingSectionId=null; }
+
+async function saveEditSection(){
+  const id = editingSectionId;
+  if(!id) return;
+  const s = SECTIONS.find(x=>x.id===id);
+  const name = document.getElementById('es-name').value.trim();
+  const title = document.getElementById('es-title').value.trim();
+  const subtitle = document.getElementById('es-subtitle').value.trim();
+  if(!name){ toast('Name required','error'); return; }
+  const type = s?.section_type||'text';
+  let content = s?.content||[];
+  if(type==='text'){
+    content=[{text:(document.getElementById('es-content-text')||{}).value||''}];
+  } else if(type==='cards'){
+    const lines=((document.getElementById('es-content-cards')||{}).value||'').split('\n').filter(l=>l.trim());
+    content=lines.map(l=>{const[icon='',t='',d='']=l.split('|').map(x=>x.trim());return{icon,title:t,description:d};});
+  } else if(type==='faq'){
+    const lines=((document.getElementById('es-content-faq')||{}).value||'').split('\n').filter(l=>l.trim());
+    content=lines.map(l=>{const[q='',a='']=l.split('|').map(x=>x.trim());return{q,a};});
+  } else if(type==='html'){
+    content=[{html:(document.getElementById('es-content-html')||{}).value||''}];
+  }
+  const r=await fetch(`${API}/api/sections/${id}`,{method:'PUT',headers:ah(),body:JSON.stringify({name,title,subtitle,content})});
+  if(r.ok){ const updated=await r.json(); Object.assign(s,updated); renderSections(); closeEditSection(); toast('Section updated','success'); }
+  else toast('Error saving','error');
+}
+
+async function deleteSection(id){
+  const s = SECTIONS.find(x=>x.id===id);
+  if(!confirm(`Delete "${s?.name||'this section'}"? This cannot be undone.`)) return;
+  const r=await fetch(`${API}/api/sections/${id}`,{method:'DELETE',headers:ah()});
+  if(r.ok){ SECTIONS=SECTIONS.filter(x=>x.id!==id); renderSections(); toast('Section deleted','success'); }
+  else { const e=await r.json().catch(()=>{}); toast(e?.error||'Error deleting','error'); }
+}
 </script>
 </body>
 </html>
