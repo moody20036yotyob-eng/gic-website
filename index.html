@@ -1,0 +1,1513 @@
+NOT FOUND: Broadcast &amp; Recording NOT FOUND: Robotics Bay NOT FOUND: Game Dev Studios NOT FOUND: Motion Capture Studio NOT FOUND: Esports Arena Fixed XR Prototyping Lab <!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Game Innovation Center &mdash; Alfaisal University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{'hr':'#BF00FF','hp':'#00E5FF','hd':'#06000F','hc':'#EDE0FF','hm':'#FF00CC','hb':'#4400FF'},fontFamily:{playfair:['"Playfair Display"','serif'],inter:['Inter','sans-serif']}}}}</script>
+<style>
+:root{--rose:#BF00FF;--pink:#00E5FF;--magenta:#FF00CC;--blue:#4400FF;--dark:#06000F;--cream:#EDE0FF;--violet:#1A0040}
+*{scroll-behavior:smooth;box-sizing:border-box}
+html{background:#06000F}
+body{background:transparent;color:var(--cream);font-family:'Inter',sans-serif;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--rose);border-radius:3px}
+
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(191,0,255,.3)}50%{box-shadow:0 0 45px rgba(0,229,255,.5),0 0 80px rgba(191,0,255,.25)}}
+@keyframes faq-open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.navbar{position:fixed;top:0;left:0;right:0;z-index:900;backdrop-filter:blur(16px);background:rgba(6,0,15,.88);border-bottom:1px solid rgba(191,0,255,.2);transition:background .3s}
+.navbar.scrolled{background:rgba(6,0,15,.98);border-bottom-color:rgba(0,229,255,.15)}
+.nav-link{color:rgba(237,224,255,.65);font-size:.85rem;font-weight:500;position:relative;transition:color .25s;text-decoration:none;white-space:nowrap}
+.nav-link::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--rose),var(--pink));transition:width .3s;border-radius:2px}
+.nav-link:hover{color:var(--pink);text-shadow:0 0 12px rgba(0,229,255,.6)}.nav-link:hover::after{width:100%}
+.btn-primary{background:linear-gradient(135deg,var(--rose),var(--blue),var(--pink));color:#fff;padding:9px 22px;border-radius:50px;font-weight:600;font-size:.88rem;border:none;cursor:pointer;transition:all .3s;box-shadow:0 0 18px rgba(191,0,255,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(191,0,255,.55),0 0 60px rgba(0,229,255,.2)}
+.btn-outline-sm{background:transparent;color:var(--cream);padding:9px 20px;border-radius:50px;font-weight:600;font-size:.88rem;border:1.5px solid rgba(191,0,255,.4);cursor:pointer;transition:all .3s}
+.btn-outline-sm:hover{border-color:var(--pink);color:var(--pink);box-shadow:0 0 16px rgba(0,229,255,.25)}
+
+.ham{display:flex;flex-direction:column;cursor:pointer;padding:4px}
+.ham span{display:block;width:23px;height:2px;background:var(--cream);margin:4px 0;transition:all .3s;border-radius:2px}
+.ham.open span:nth-child(1){transform:rotate(45deg) translate(4px,6px)}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-6px)}
+
+.mob-menu{position:fixed;top:0;right:-300px;width:270px;height:100vh;background:rgba(6,0,15,.98);backdrop-filter:blur(20px);border-left:1px solid rgba(191,0,255,.25);border-radius:18px 0 0 18px;z-index:950;padding:80px 30px 40px;transition:right .35s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+.mob-menu.open{right:0}
+.mob-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:940;opacity:0;pointer-events:none;transition:opacity .3s}
+.mob-overlay.open{opacity:1;pointer-events:all}
+.mob-link{display:block;color:rgba(237,224,255,.75);font-size:1rem;font-weight:500;padding:12px 0;border-bottom:1px solid rgba(191,0,255,.12);text-decoration:none;transition:color .2s}
+.mob-link:hover{color:var(--pink)}
+
+#hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center}
+.hero-glow{position:absolute;inset:0;background:
+  radial-gradient(ellipse 60% 50% at 20% 60%,rgba(191,0,255,.18) 0%,transparent 60%),
+  radial-gradient(ellipse 50% 40% at 80% 25%,rgba(0,229,255,.12) 0%,transparent 55%),
+  radial-gradient(ellipse 40% 35% at 55% 80%,rgba(255,0,204,.1) 0%,transparent 50%);pointer-events:none}
+
+section{padding:96px 0}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:900;color:var(--cream);line-height:1.08}
+.sec-sub{color:rgba(237,224,255,.58);font-size:1rem;line-height:1.75}
+.rose-line{width:52px;height:3px;background:linear-gradient(90deg,var(--rose),var(--pink));border-radius:2px;margin:14px 0;box-shadow:0 0 10px rgba(191,0,255,.5)}
+.rose-text{color:var(--rose);text-shadow:0 0 20px rgba(191,0,255,.5)}
+.pink-text{color:var(--pink);text-shadow:0 0 16px rgba(0,229,255,.4)}
+.eyebrow{color:var(--rose);font-size:1.2rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+
+/* Stat cards */
+.stat-card{background:rgba(6,0,15,.8);border:1px solid rgba(191,0,255,.3);border-radius:20px;padding:28px 20px;text-align:center;animation:pulse-glow 3s ease-in-out infinite;backdrop-filter:blur(12px)}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--rose);text-shadow:0 0 24px rgba(191,0,255,.6)}
+.stat-lbl{color:rgba(237,224,255,.55);font-size:.88rem;font-weight:500;margin-top:6px}
+
+/* Program cards */
+.prog-card{background:rgba(6,0,15,.75);border:1px solid rgba(191,0,255,.3);border-radius:18px;padding:32px 28px;transition:all .3s;height:100%;backdrop-filter:blur(12px)}
+.prog-card:hover{border-color:rgba(0,229,255,.5);transform:translateY(-4px);box-shadow:0 12px 40px rgba(191,0,255,.2)}
+.prog-badge{display:inline-block;padding:4px 13px;border-radius:20px;font-size:.75rem;font-weight:600;margin-bottom:16px}
+
+/* Event cards &mdash; legacy removed, new tabbed system below */
+.ev-year-btn{background:rgba(6,0,15,.6);border:1px solid rgba(191,0,255,.3);color:rgba(237,224,255,.6);border-radius:50px;padding:10px 28px;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .3s;letter-spacing:.04em}
+.ev-year-btn.active,.ev-year-btn:hover{background:linear-gradient(135deg,var(--rose),var(--magenta));border-color:transparent;color:#fff;box-shadow:0 0 24px rgba(191,0,255,.4)}
+.ev-sub-btn{background:rgba(6,0,15,.5);border:1px solid rgba(191,0,255,.2);color:rgba(237,224,255,.55);border-radius:10px;padding:8px 20px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap}
+.ev-sub-btn.active,.ev-sub-btn:hover{background:rgba(191,0,255,.2);border-color:rgba(191,0,255,.5);color:var(--cream)}
+.ev-cover{position:relative;border-radius:20px;overflow:hidden;height:400px;margin-bottom:32px}
+.ev-cover img{width:100%;height:100%;object-fit:cover;object-position:center}
+.ev-cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,0,15,.92) 0%,rgba(6,0,15,.35) 55%,transparent 100%)}
+.ev-cover-badge{position:absolute;bottom:30px;left:30px;right:30px}
+.ev-cover-badge h3{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.15;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.ev-cover-badge span{background:linear-gradient(135deg,var(--rose),var(--magenta));color:#fff;font-size:.78rem;font-weight:700;padding:5px 16px;border-radius:50px;letter-spacing:.08em}
+.ev-desc{color:rgba(237,224,255,.7);font-size:1rem;line-height:1.8;margin-bottom:28px}
+.ev-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:8px}
+.ev-gallery img{width:100%;height:155px;object-fit:cover;border-radius:12px;cursor:pointer;transition:transform .3s,border-color .3s;border:1px solid rgba(191,0,255,.15)}
+.ev-gallery img:hover{transform:scale(1.04);border-color:rgba(191,0,255,.45)}
+
+/* Project cards */
+.proj-card{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:20px;padding:34px 30px;transition:all .3s;backdrop-filter:blur(12px)}
+.proj-card:hover{border-color:rgba(0,229,255,.5);transform:translateY(-4px);box-shadow:0 14px 44px rgba(191,0,255,.2)}
+
+/* Facility cards */
+.fac-card{background:rgba(6,0,15,.82);border:1px solid rgba(191,0,255,.3);border-radius:18px;overflow:hidden;transition:all .3s;position:relative;backdrop-filter:blur(12px)}
+.fac-card:hover{border-color:rgba(0,229,255,.5);box-shadow:0 0 40px rgba(191,0,255,.2)}
+.fac-icon-wrap{height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.fac-glow{position:absolute;inset:0;opacity:.15;transition:opacity .3s}
+.fac-card:hover .fac-glow{opacity:.3}
+
+/* Team cards */
+.team-card{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:18px;padding:28px 24px;text-align:center;transition:all .3s;backdrop-filter:blur(12px)}
+.team-card:hover{border-color:rgba(0,229,255,.5);transform:translateY(-4px);box-shadow:0 12px 36px rgba(191,0,255,.2)}
+.team-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--blue),var(--pink));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:1.4rem;color:#fff;margin:0 auto 16px;border:2px solid rgba(0,229,255,.3);box-shadow:0 0 18px rgba(191,0,255,.35)}
+
+/* Partner logos */
+.partner-logo{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:14px;padding:18px 22px;display:inline-flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(12px)}
+.partner-logo:hover{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.08);box-shadow:0 0 20px rgba(0,229,255,.15)}
+.partner-name{font-weight:700;font-size:.95rem;color:rgba(237,224,255,.5);letter-spacing:.04em;transition:color .3s}
+.partner-logo:hover .partner-name{color:rgba(237,224,255,.85)}
+
+/* Characters */
+@keyframes ch-a{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-20px) rotate(4deg)}}
+@keyframes ch-b{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-16px) rotate(-3deg)}}
+@keyframes ch-c{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-24px) rotate(2deg)}}
+@keyframes ch-d{0%,100%{transform:translateY(0) rotate(5deg)}50%{transform:translateY(-18px) rotate(-5deg)}}
+@keyframes ch-e{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.ch{position:absolute;pointer-events:none;z-index:0;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5));opacity:.85}
+@media(max-width:768px){.ch{width:clamp(80px,22vw,120px)!important;opacity:.5}}
+
+/* News cards */
+.news-card{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:16px;padding:28px;transition:all .3s;backdrop-filter:blur(12px)}
+.news-card:hover{border-color:rgba(0,229,255,.5);transform:translateY(-4px);box-shadow:0 12px 36px rgba(191,0,255,.2)}
+.news-badge{display:inline-block;padding:3px 11px;border-radius:20px;font-size:.72rem;font-weight:600;margin-bottom:12px}
+
+/* FAQ */
+.faq-item{border:1px solid rgba(191,0,255,.3);border-radius:14px;overflow:hidden;margin-bottom:12px;transition:border-color .3s;backdrop-filter:blur(12px)}
+.faq-item.open{border-color:rgba(0,229,255,.5)}
+.faq-q{width:100%;background:rgba(6,0,15,.78);border:none;color:var(--cream);padding:20px 24px;text-align:left;cursor:pointer;font-size:.97rem;font-weight:600;font-family:'Inter',sans-serif;display:flex;justify-content:space-between;align-items:center;transition:background .3s;gap:16px}
+.faq-item.open .faq-q{background:rgba(6,0,15,.88)}
+.faq-chevron{flex-shrink:0;transition:transform .3s;color:var(--rose)}
+.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--pink)}
+.faq-a{display:none;padding:0 24px 20px;color:rgba(237,224,255,.65);font-size:.92rem;line-height:1.75;animation:faq-open .25s ease}
+.faq-item.open .faq-a{display:block}
+
+/* Director card */
+.director-card{background:rgba(6,0,15,.82);border:1px solid rgba(0,229,255,.3);border-radius:20px;padding:34px 30px;backdrop-filter:blur(12px);box-shadow:0 0 40px rgba(0,229,255,.08)}
+.dir-avatar{width:130px;height:130px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--blue),var(--pink));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:1.5rem;color:#fff;border:2px solid rgba(0,229,255,.35);box-shadow:0 0 20px rgba(191,0,255,.4);flex-shrink:0}
+.status-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px rgba(74,222,128,.6);display:inline-block;margin-right:6px}
+
+/* Form */
+.f-input{background:rgba(191,0,255,.05);border:1px solid rgba(191,0,255,.2);border-radius:10px;color:var(--cream);padding:13px 16px;width:100%;font-size:.95rem;transition:border-color .3s,box-shadow .3s;outline:none;font-family:'Inter',sans-serif}
+.f-input:focus{border-color:var(--pink);background:rgba(0,229,255,.05);box-shadow:0 0 16px rgba(0,229,255,.15)}
+.f-input::placeholder{color:rgba(237,224,255,.28)}
+
+.involve-block{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:18px;padding:32px 28px;transition:all .3s;backdrop-filter:blur(12px)}
+.involve-block:hover{border-color:rgba(0,229,255,.5);box-shadow:0 8px 30px rgba(191,0,255,.2)}
+
+@media(max-width:768px){section{padding:70px 0}.fac-icon-wrap{height:120px}}
+
+/* Logo marquee */
+.marquee-wrap{overflow:hidden;width:100%;padding:16px 0;mask-image:linear-gradient(90deg,transparent,black 10%,black 90%,transparent)}
+.marquee-track{display:flex;gap:24px;width:max-content;animation:marquee 40s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes marquee-reverse{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.marquee-track.reverse{animation-name:marquee-reverse}
+.logo-pill{background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.25);border-radius:14px;padding:12px 18px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-width:130px;height:auto;flex-shrink:0;backdrop-filter:blur(12px);transition:border-color .3s}
+.logo-pill:hover{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.06)}
+.logo-pill .logo-name{font-size:.68rem;font-weight:600;letter-spacing:.05em;color:rgba(237,224,255,.45);text-align:center;white-space:nowrap;transition:color .3s}
+.logo-pill:hover .logo-name{color:rgba(237,224,255,.8)}
+
+
+.anim-fade-up{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.anim-fade-up.is-visible{opacity:1;transform:translateY(0)}
+.anim-scale-in{opacity:0;transform:scale(.92);transition:opacity .65s ease,transform .65s ease}
+.anim-scale-in.is-visible{opacity:1;transform:scale(1)}
+.anim-fade-left{opacity:0;transform:translateX(-50px);transition:opacity .7s ease,transform .7s ease}
+.anim-fade-left.is-visible{opacity:1;transform:translateX(0)}
+.anim-fade-right{opacity:0;transform:translateX(50px);transition:opacity .7s ease,transform .7s ease}
+.anim-fade-right.is-visible{opacity:1;transform:translateX(0)}
+.anim-flip{opacity:0;transform:perspective(600px) rotateX(25deg) translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.anim-flip.is-visible{opacity:1;transform:perspective(600px) rotateX(0deg) translateY(0)}
+.anim-pop{opacity:0;transform:scale(.7);transition:opacity .5s cubic-bezier(.34,1.56,.64,1),transform .5s cubic-bezier(.34,1.56,.64,1)}
+.anim-pop.is-visible{opacity:1;transform:scale(1)}
+.anim-glow-in{opacity:0;filter:blur(8px) brightness(2);transition:opacity .8s ease,filter .8s ease}
+.anim-glow-in.is-visible{opacity:1;filter:blur(0) brightness(1)}
+
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;object-fit:cover}
+#scroll-driver{height:600vh}
+#sticky-wrap{position:sticky;top:0;height:100vh;overflow:hidden}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="mob-overlay" id="mobOverlay" onclick="closeMob()"></div>
+<div class="mob-menu" id="mobMenu">
+  <button onclick="closeMob()" style="position:absolute;top:20px;right:20px;background:rgba(191,0,255,.15);border:none;color:var(--cream);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem">&#x2715;</button>
+  <a href="#about"      class="mob-link" onclick="closeMob()">About</a>
+  <a href="#programs"   class="mob-link" onclick="closeMob()">Programs</a>
+  <a href="#facilities" class="mob-link" onclick="closeMob()">Facilities</a>
+  <a href="#events"     class="mob-link" onclick="closeMob()">Events</a>
+  <a href="#team"       class="mob-link" onclick="closeMob()">Team</a>
+  <a href="#projects"   class="mob-link" onclick="closeMob()">Projects</a>
+  <a href="#news"       class="mob-link" onclick="closeMob()">News</a>
+  <a href="#faq"        class="mob-link" onclick="closeMob()">FAQ</a>
+  <a href="#contact"    class="mob-link" onclick="closeMob()">Contact</a>
+  <a href="robogames.html" class="mob-link" style="color:var(--rose);font-weight:700" onclick="closeMob()">RoboGames &amp; Esports</a>
+  <a href="/portal.html" class="mob-link" style="color:#00E5FF">My Portal</a>
+  <div style="margin-top:24px">
+    <button class="btn-primary" style="width:100%" onclick="closeMob();openApply()">Apply Now</button>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="max-w-7xl mx-auto px-5 flex items-center justify-between h-16">
+    <a href="#hero" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0">
+      <img src="logo3.png" alt="GIC Logo" style="width:42px;height:42px;object-fit:cover;border-radius:50%;flex-shrink:0"/>
+      <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;color:var(--cream)">Game Innovation Center</span>
+    </a>
+    <div class="hidden lg:flex items-center gap-6">
+      <a href="#about"      class="nav-link">About</a>
+      <a href="#programs"   class="nav-link">Programs</a>
+      <a href="#facilities" class="nav-link">Facilities</a>
+      <a href="#events"     class="nav-link">Events</a>
+      <a href="#team"       class="nav-link">Team</a>
+      <a href="#projects"   class="nav-link">Projects</a>
+      <a href="#news"       class="nav-link">News</a>
+      <a href="#faq"        class="nav-link">FAQ</a>
+      <a href="robogames.html" class="nav-link" style="color:var(--rose);font-weight:700">RoboGames &amp;&#8203;</a>
+    </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="/portal.html" style="padding:9px 18px;border:1px solid rgba(0,229,255,.35);border-radius:10px;color:#00E5FF;font-size:.85rem;font-weight:600;text-decoration:none;transition:.2s" onmouseover="this.style.background='rgba(0,229,255,.08)'" onmouseout="this.style.background=''">My Portal</a>
+      <button class="btn-primary" onclick="openApply()">Apply Now</button>
+    </div>
+    <div class="flex lg:hidden items-center">
+      <div class="ham" id="hamBtn" onclick="openMob()"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; HERO -->
+<section id="hero" style="position:relative">
+  <div class="hero-glow"></div>
+  <!-- Hero character -->
+  <img class="ch" src="char/mario pic.webp" style="width:clamp(280px,30vw,440px);bottom:15%;right:8%;animation:ch-a 4s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(0,0,0,.6)) drop-shadow(0 0 24px rgba(191,0,255,.4))"/>
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,0,15,.85) 0%,rgba(6,0,15,.5) 50%,transparent 100%);z-index:1;pointer-events:none"></div>
+  <div class="max-w-7xl mx-auto px-5 w-full" style="position:relative;z-index:10">
+    <div style="max-width:680px">
+      <div style="margin-bottom:18px">
+        <span style="background:rgba(191,0,255,.15);border:1px solid rgba(191,0,255,.3);color:var(--rose);padding:6px 18px;border-radius:20px;font-size:.82rem;font-weight:600;letter-spacing:.05em">&#x1F3AE; Game Innovation Center &mdash; Alfaisal University</span>
+      </div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5.5rem);font-weight:900;line-height:1.08;margin-bottom:22px;color:var(--cream)">Where <span class="rose-text">Code</span><br/>Meets <span class="pink-text">Play</span></h1>
+      <p style="font-size:1.15rem;color:rgba(237,224,255,.65);max-width:520px;margin-bottom:38px;line-height:1.75">Forging the next generation of game developers, XR creators, and interactive media pioneers.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:56px">
+        <a href="#programs"><button class="btn-primary" style="padding:14px 32px;font-size:1rem">Explore Programs</button></a>
+        <a href="#events"><button class="btn-outline-sm" style="padding:14px 30px;font-size:1rem">View Events</button></a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:32px">
+        <div style="text-align:center">
+          <div id="heroStat1Val" style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--rose);text-shadow:0 0 20px rgba(191,0,255,.5)">6+</div>
+          <div id="heroStat1Lbl" style="font-size:.8rem;color:rgba(237,224,255,.5);font-weight:500;margin-top:2px">Programs</div>
+        </div>
+        <div style="width:1px;background:rgba(191,0,255,.2);height:40px;margin-top:6px"></div>
+        <div style="text-align:center">
+          <div id="heroStat2Val" style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--rose);text-shadow:0 0 20px rgba(191,0,255,.5)">500+</div>
+          <div id="heroStat2Lbl" style="font-size:.8rem;color:rgba(237,224,255,.5);font-weight:500;margin-top:2px">Students Trained</div>
+        </div>
+        <div style="width:1px;background:rgba(191,0,255,.2);height:40px;margin-top:6px"></div>
+        <div style="text-align:center">
+          <div id="heroStat3Val" style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--rose);text-shadow:0 0 20px rgba(191,0,255,.5)">10+</div>
+          <div id="heroStat3Lbl" style="font-size:.8rem;color:rgba(237,224,255,.5);font-weight:500;margin-top:2px">Events Per Year</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);cursor:pointer" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; ABOUT -->
+<section id="about" style="padding-top:0;margin-top:20px">
+  <div class="max-w-7xl mx-auto px-5">
+    <!-- Title + text full width -->
+    <div style="margin-bottom:40px">
+      <p class="eyebrow">About GIC</p>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:900;line-height:1.08;color:var(--cream);margin-bottom:14px">Built to Push <span class="rose-text">Every</span> <span class="pink-text">Boundary</span></h2>
+      <div class="rose-line"></div>
+      <p class="sec-sub" style="max-width:760px">The Game Innovation Center is a hybrid educational hub and innovative research unit at Alfaisal University's College of Engineering, focused on game research, innovation, design, and development. We explore the possibilities of play and enable game creators to drive real-world change &mdash; using games that help people learn, improve their communities, and contribute to making the world a better place. Our fully equipped game studio hosts game jams, competitions, research projects, and collaborations with industry partners across education, healthcare, entertainment, and strategic sectors using VR, AR, and gaming robotics.</p>
+    </div>
+    <!-- Stats + Director side by side -->
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <div class="grid grid-cols-2 gap-5">
+        <div class="stat-card"><div class="stat-num">250+</div><div class="stat-lbl">Conference Attendees</div></div>
+        <div class="stat-card" style="animation-delay:.4s"><div class="stat-num">120+</div><div class="stat-lbl">Research Members</div></div>
+        <div class="stat-card" style="animation-delay:.8s"><div class="stat-num">26+</div><div class="stat-lbl">Industry Partners</div></div>
+        <div class="stat-card" style="animation-delay:1.2s"><div class="stat-num">10+</div><div class="stat-lbl">Published Research</div></div>
+      </div>
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px">Director</p>
+        <div class="director-card">
+          <div style="display:flex;align-items:center;gap:18px;margin-bottom:24px">
+            <div class="dir-avatar" style="overflow:hidden;padding:0;background:none"><img src="fac/Screenshot 2026-07-02 002037.png" alt="Eng. Hoda Elsayed" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>
+            <div>
+              <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--cream)">Eng. Hoda Elsayed</div>
+              <div style="color:var(--pink);font-size:.88rem;font-weight:600;margin-top:4px">Head of Game Innovation Center</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 15px;background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.15);border-radius:10px">
+              <span>&#x1F4CD;</span><span style="font-size:.88rem;color:rgba(237,224,255,.7)">Riyadh · KSA</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 15px;background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.15);border-radius:10px">
+              <span>&#x1F5FA;&#xFE0F;</span><span style="font-size:.88rem;color:rgba(237,224,255,.7)">Alfaisal University CoE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:11px 15px;background:rgba(74,222,128,.05);border:1px solid rgba(74,222,128,.2);border-radius:10px">
+              <span class="status-dot"></span><span style="font-size:.88rem;color:rgba(237,224,255,.7)">Active &mdash; Alfaisal University CoE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; FACILITIES -->
+<section id="facilities" style="background:rgba(191,0,255,.025)">
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:56px">
+      <p class="eyebrow">Facilities</p>
+      <h2 class="sec-title">Our <span class="pink-text">Space</span></h2>
+      <p class="sec-sub" style="max-width:500px;margin:14px auto 0">Industry-grade environments built so you graduate ready &mdash; not just educated.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-7">
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(191,0,255,.6),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(191,0,255,.7))">&#x1F97D;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">XR Prototyping Lab</h3>
+          <p class="sec-sub" style="font-size:.88rem">Industry-grade VR/AR headsets &mdash; Meta Quest, HTC Vive, Microsoft HoloLens. Six full development stations with haptic feedback rigs.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Meta Quest</span>
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">HTC Vive</span>
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">HoloLens</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(0,229,255,.5),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(0,229,255,.6))">&#x1F3AE;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">Esports Arena</h3>
+          <p class="sec-sub" style="font-size:.88rem">20-seat competitive arena with 240Hz gaming monitors, mechanical keyboards, and professional streaming infrastructure for tournament broadcasts.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">240Hz Displays</span>
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Live Stream</span>
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">20 Seats</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(255,0,204,.5),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(255,0,204,.6))">&#x1F3A5;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">Motion Capture Studio</h3>
+          <p class="sec-sub" style="font-size:.88rem">Full-body optical motion capture with 12-camera array. Directly export to Unity and Unreal Engine &mdash; animate characters with real human movement.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(255,0,204,.1);border:1px solid rgba(255,0,204,.25);color:var(--magenta);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">12-Cam Array</span>
+            <span style="background:rgba(255,0,204,.1);border:1px solid rgba(255,0,204,.25);color:var(--magenta);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Unity Export</span>
+            <span style="background:rgba(255,0,204,.1);border:1px solid rgba(255,0,204,.25);color:var(--magenta);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Unreal Export</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(68,0,255,.55),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(68,0,255,.7))">&#x1F5A5;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">Game Dev Studios</h3>
+          <p class="sec-sub" style="font-size:.88rem">30 high-spec workstations with RTX 4090s, dual-monitor setups, and licensed seats of Unity, Unreal, Maya, and Adobe Creative Suite.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(68,0,255,.12);border:1px solid rgba(68,0,255,.28);color:#a78bfa;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">RTX 4090</span>
+            <span style="background:rgba(68,0,255,.12);border:1px solid rgba(68,0,255,.28);color:#a78bfa;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">30 Stations</span>
+            <span style="background:rgba(68,0,255,.12);border:1px solid rgba(68,0,255,.28);color:#a78bfa;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Full Licenses</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(191,0,255,.5),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(191,0,255,.6))">&#x1F916;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">Robotics Bay</h3>
+          <p class="sec-sub" style="font-size:.88rem">Dedicated Robogames workspace with modular arenas, micro-controllers, servo kits, 3D printers, and laser cutters for rapid prototyping.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">3D Printing</span>
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Laser Cutter</span>
+            <span style="background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:var(--rose);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Live Arena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fac-card">
+        <div class="fac-icon-wrap">
+          <div class="fac-glow" style="background:radial-gradient(circle,rgba(0,229,255,.45),transparent 70%)"></div>
+          <span style="font-size:4rem;position:relative;z-index:1;filter:drop-shadow(0 0 14px rgba(0,229,255,.55))">&#x1F3A5;</span>
+        </div>
+        <div style="padding:24px 26px 28px">
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream);margin-bottom:8px">Broadcast & Recording</h3>
+          <p class="sec-sub" style="font-size:.88rem">Soundproofed podcast and game streaming booth with 4K cameras, LED lighting rigs, and professional audio mixing. Used for events and content creation.</p>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:7px">
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">4K Cameras</span>
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Soundproofed</span>
+            <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink);padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:500">Live Mix</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; PROGRAMS -->
+<section id="programs" style="position:relative;overflow:visible">
+  <!-- Programs characters -->
+  <img class="ch" src="char/dragon pic.webp" style="width:clamp(160px,17vw,240px);bottom:5%;left:2%;animation:ch-b 5s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 16px rgba(191,0,255,.3))"/>
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:56px">
+      <p class="eyebrow">Programs &amp; Workshops</p>
+      <h2 class="sec-title">Level Up Your <span class="pink-text">Skills</span></h2>
+      <p class="sec-sub" style="max-width:500px;margin:14px auto 0">Immersive tracks designed to take you from concept to shipped product.</p>
+    </div>
+    <div id="programsGrid" class="grid md:grid-cols-3 gap-7"></div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; EVENTS -->
+<section id="events" style="background:rgba(191,0,255,.025);position:relative;overflow:visible">
+  <!-- Events character -->
+  <img class="ch" src="char/character-nobg.png" style="width:clamp(160px,17vw,240px);top:10%;right:2%;animation:ch-d 5.5s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 16px rgba(204,21,51,.3))"/>
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:52px">
+      <p class="eyebrow">Events &amp; Exhibits</p>
+      <h2 class="sec-title">Where the Action <span class="pink-text">Happens</span></h2>
+    </div>
+    <!-- Year tab pills -->
+    <div id="evYearTabs" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px"></div>
+    <!-- Dynamic content area -->
+    <div id="evContent"></div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; TEAM -->
+<section id="team">
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:56px">
+      <p class="eyebrow">Team &amp; People</p>
+      <h2 class="sec-title">The Minds <span class="pink-text">Behind GIC</span></h2>
+      <p class="sec-sub" style="max-width:480px;margin:14px auto 0">Faculty leads, lab directors, and student team heads driving innovation every semester.</p>
+    </div>
+
+    <div id="teamSection"></div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; PROJECTS -->
+<section id="projects" style="position:relative;overflow:visible">
+  <!-- Projects characters -->
+  <img class="ch" src="char/mario pic.webp" style="width:clamp(150px,16vw,220px);top:8%;left:1.5%;animation:ch-a 4s ease-in-out infinite 0.3s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 16px rgba(191,0,255,.3))"/>
+  <img class="ch" src="char/dragon pic.webp" style="width:clamp(150px,16vw,220px);bottom:8%;left:3%;animation:ch-b 5s ease-in-out infinite 1s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 16px rgba(191,0,255,.3))"/>
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:56px">
+      <p class="eyebrow">Projects &amp; Research</p>
+      <h2 class="sec-title">Student-Built. <span class="pink-text">Industry-Grade.</span></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-7">
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--rose),var(--blue));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F9E0;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">LexiaQuest</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">VR · Dyslexia Screening</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">VR game for dyslexia screening &mdash; a capstone project published on Springer and presented at HCI2023 in Denmark.</p>
+        <div style="padding:10px 14px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F4D6; Springer &mdash; HCI2023, Denmark</div>
+      </div>
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--magenta),var(--rose));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F91D;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">Ishara Tawasu</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">Sign Language Chatbot</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">Virtual Arabic Sign Language chatbot &mdash; published at HCI2025 in Sweden with a patent application registered.</p>
+        <div style="padding:10px 14px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F4D6; Springer &mdash; HCI2025, Sweden · Patent Registered</div>
+      </div>
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--blue),var(--pink));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F4CD;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">MasterM1nd</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">Cybersecurity Education</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">A cybersecurity educational game published at HCI2024 in Washington DC &mdash; making security concepts accessible through gameplay.</p>
+        <div style="padding:10px 14px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F4D6; Springer &mdash; HCI2024, Washington DC</div>
+      </div>
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--rose),var(--magenta));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F5FA;&#xFE0F;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">AlfaVR</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">VR Engineering Expo</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">Alfaisal Virtual Reality Engineering Expo Platform &mdash; winner of the Boeing Award for innovation in virtual environments.</p>
+        <div style="padding:10px 14px;background:rgba(191,0,255,.08);border:1px solid rgba(191,0,255,.2);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F3C6; Boeing Award Winner</div>
+      </div>
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--pink),var(--rose));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F4BB;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">Diabetes Guardians</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">Health Education</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">An educational game designed to help diabetic children understand and manage their condition through engaging gameplay.</p>
+        <div style="padding:10px 14px;background:rgba(0,229,255,.06);border:1px solid rgba(0,229,255,.15);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F3AE; Capstone Project</div>
+      </div>
+      <div class="proj-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:48px;height:48px;background:linear-gradient(135deg,var(--blue),var(--magenta));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">&#x1F916;</div>
+          <div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--cream)">Hexabot</h3>
+            <span style="font-size:.75rem;color:var(--pink);font-weight:600">Campus Navigation Robot</span>
+          </div>
+        </div>
+        <p class="sec-sub" style="font-size:.9rem;margin-bottom:16px">An interactive robot for on-campus navigation at Alfaisal University &mdash; a patent application has been submitted.</p>
+        <div style="padding:10px 14px;background:rgba(191,0,255,.08);border:1px solid rgba(191,0,255,.2);border-radius:8px;font-size:.78rem;color:rgba(237,224,255,.55)">&#x1F4CB; Patent Application Submitted</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; NEWS -->
+<section id="news" style="background:rgba(191,0,255,.025);position:relative;overflow:visible">
+  <!-- News characters -->
+  <img class="ch" src="char/mario pic.webp" style="width:clamp(140px,15vw,210px);top:5%;left:1%;animation:ch-a 4.2s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(191,0,255,.3))"/>
+  <img class="ch" src="char/dragon pic.webp" style="width:clamp(140px,15vw,210px);bottom:5%;left:2%;animation:ch-b 5s ease-in-out infinite 0.7s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(191,0,255,.3))"/>
+  <img class="ch" src="char/Savvy_Games-Homepage-Careers-Character_02.png" style="width:clamp(140px,15vw,210px);bottom:8%;right:3%;animation:ch-d 5.2s ease-in-out infinite 0.4s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(204,21,51,.3))"/>
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:56px">
+      <p class="eyebrow">News &amp; Announcements</p>
+      <h2 class="sec-title">Latest from <span class="pink-text">GIC</span></h2>
+    </div>
+    <div id="newsGrid" class="grid md:grid-cols-3 gap-7"></div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; FAQ -->
+<section id="faq" style="position:relative;overflow:visible">
+  <!-- FAQ characters -->
+  <img class="ch" src="char/character-nobg.png" style="width:clamp(140px,15vw,210px);top:8%;right:1%;animation:ch-e 4.8s ease-in-out infinite 0.9s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(204,21,51,.3))"/>
+  <img class="ch" src="char/Savvy_Games-Homepage-Careers-Character_02.png" style="width:clamp(140px,14vw,200px);top:5%;left:1%;animation:ch-b 5s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(204,21,51,.3))"/>
+  <div class="max-w-3xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:52px">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="sec-title">Common <span class="pink-text">Questions</span></h2>
+    </div>
+
+    <div id="faqList"></div>
+
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; CONTACT -->
+<section id="contact" style="background:rgba(191,0,255,.025);position:relative;overflow:visible">
+  <!-- Contact characters -->
+  <img class="ch" src="char/mario pic.webp" style="width:clamp(140px,14vw,200px);bottom:5%;left:1%;animation:ch-a 4.5s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(191,0,255,.3))"/>
+  <img class="ch" src="char/dragon pic.webp" style="width:clamp(140px,14vw,200px);bottom:5%;right:1%;animation:ch-c 5s ease-in-out infinite 0.7s;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55)) drop-shadow(0 0 14px rgba(191,0,255,.3))"/>
+  <div class="max-w-5xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:52px">
+      <p class="eyebrow">Get Involved</p>
+      <h2 class="sec-title">Start Your <span class="pink-text">Journey</span></h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-7" style="margin-bottom:44px">
+      <div class="involve-block">
+        <div style="font-size:2rem;margin-bottom:16px">&#x1F4DD;</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:10px">Apply</h3>
+        <p class="sec-sub" style="font-size:.92rem;margin-bottom:20px">Ready to level up? Applications open each semester for all our tracks.</p>
+        <button class="btn-primary" style="padding:11px 26px" onclick="openApply()">Apply Now &#x2192;</button>
+      </div>
+      <div class="involve-block">
+        <div style="font-size:2rem;margin-bottom:16px">&#x1F4BB;</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:10px">Partnership</h3>
+        <p class="sec-sub" style="font-size:.92rem;margin-bottom:20px">Looking to collaborate on research, sponsor events, or recruit talent from our programs?</p>
+        <a href="mailto:gamelab@alfaisal.edu" style="text-decoration:none"><button class="btn-outline-sm" style="padding:11px 26px">gamelab@alfaisal.edu &#x2192;</button></a>
+      </div>
+    </div>
+    <div id="contact-form" style="background:rgba(6,0,15,.78);border:1px solid rgba(191,0,255,.3);border-radius:20px;padding:44px 40px;backdrop-filter:blur(12px)">
+      <form id="contactForm" onsubmit="submitContact(event)">
+        <div class="grid md:grid-cols-2 gap-5" style="margin-bottom:20px">
+          <div>
+            <label style="display:block;font-size:.84rem;font-weight:600;color:rgba(237,224,255,.55);margin-bottom:8px">Your Name</label>
+            <input type="text" class="f-input" id="cName" required placeholder="Your name"/>
+          </div>
+          <div>
+            <label style="display:block;font-size:.84rem;font-weight:600;color:rgba(237,224,255,.55);margin-bottom:8px">Your Email</label>
+            <input type="email" class="f-input" id="cEmail" required placeholder="you@alfaisal.edu"/>
+          </div>
+        </div>
+        <div style="margin-bottom:28px">
+          <label style="display:block;font-size:.84rem;font-weight:600;color:rgba(237,224,255,.55);margin-bottom:8px">Your Message</label>
+          <textarea class="f-input" id="cMsg" rows="5" required placeholder="Tell us about yourself, which program interests you, or how you'd like to collaborate..." style="resize:vertical;min-height:120px"></textarea>
+        </div>
+        <div style="text-align:center">
+          <button type="submit" class="btn-primary" style="padding:13px 44px;font-size:1rem">Send Message</button>
+        </div>
+        <div id="formMsg" style="text-align:center;margin-top:16px;font-size:.9rem;display:none"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; PARTNERS -->
+<section id="partners" style="background:rgba(191,0,255,.025);padding:80px 0">
+  <div class="max-w-7xl mx-auto px-5">
+    <div style="text-align:center;margin-bottom:48px">
+      <p class="eyebrow">Partners &amp; Sponsors</p>
+      <h2 class="sec-title">Built With <span class="pink-text">Industry</span></h2>
+      <p class="sec-sub" style="max-width:460px;margin:14px auto 0">Our programs are shaped by the studios and tech companies our graduates will work at.</p>
+    </div>
+    <div class="marquee-wrap" style="margin-bottom:16px">
+      <div class="marquee-track">
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM.jpeg" alt="Gen.G" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gen.G Esports</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (1).jpeg" alt="Tencent" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Tencent</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (2).jpeg" alt="Krafton" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Krafton</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (3).jpeg" alt="PUBG Mobile" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">PUBG Mobile</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM.jpeg" alt="Microsoft" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Microsoft</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (1).jpeg" alt="Boeing" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Boeing</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (2).jpeg" alt="Saudi Esports Federation" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Saudi Esports Fed.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM.jpeg" alt="Savvy Games Group" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Savvy Games Group</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM (1).jpeg" alt="Global Game Jam" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Global Game Jam</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM.jpeg" alt="Level Infinite" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Level Infinite</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (1).jpeg" alt="Nine66" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nine66</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (2).jpeg" alt="Gamers Without Borders" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gamers W/O Borders</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM.jpeg" alt="UpDown Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">UpDown Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (1).jpeg" alt="Sheraf Games" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Sheraf Games</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (2).jpeg" alt="Partner" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Partner</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (3).jpeg" alt="Qindeel Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Qindeel Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (4).jpeg" alt="AstraValle Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">AstraValle Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM.jpeg" alt="Exel by Merak" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Exel by Merak</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (1).jpeg" alt="MSI" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">MSI</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (2).jpeg" alt="Purdue University" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Purdue University</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (3).jpeg" alt="Nesma &amp; Partners" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nesma &amp; Partners</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (4).jpeg" alt="Lightspeed Studios" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Lightspeed Studios</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (5).jpeg" alt="Digital Game Association" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Digital Game Assoc.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.44 PM.jpeg" alt="KACST" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">KACST</span></div>
+        <!-- duplicate set for seamless loop -->
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM.jpeg" alt="Gen.G" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gen.G Esports</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (1).jpeg" alt="Tencent" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Tencent</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (2).jpeg" alt="Krafton" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Krafton</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (3).jpeg" alt="PUBG Mobile" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">PUBG Mobile</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM.jpeg" alt="Microsoft" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Microsoft</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (1).jpeg" alt="Boeing" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Boeing</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (2).jpeg" alt="Saudi Esports Federation" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Saudi Esports Fed.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM.jpeg" alt="Savvy Games Group" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Savvy Games Group</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM (1).jpeg" alt="Global Game Jam" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Global Game Jam</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM.jpeg" alt="Level Infinite" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Level Infinite</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (1).jpeg" alt="Nine66" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nine66</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (2).jpeg" alt="Gamers Without Borders" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gamers W/O Borders</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM.jpeg" alt="UpDown Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">UpDown Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (1).jpeg" alt="Sheraf Games" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Sheraf Games</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (2).jpeg" alt="Partner" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Partner</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (3).jpeg" alt="Qindeel Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Qindeel Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (4).jpeg" alt="AstraValle Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">AstraValle Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM.jpeg" alt="Exel by Merak" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Exel by Merak</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (1).jpeg" alt="MSI" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">MSI</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (2).jpeg" alt="Purdue University" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Purdue University</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (3).jpeg" alt="Nesma &amp; Partners" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nesma &amp; Partners</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (4).jpeg" alt="Lightspeed Studios" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Lightspeed Studios</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (5).jpeg" alt="Digital Game Association" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Digital Game Assoc.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.44 PM.jpeg" alt="KACST" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">KACST</span></div>
+      </div>
+    </div>
+    <div class="marquee-wrap" style="margin-bottom:40px">
+      <div class="marquee-track reverse">
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (1).jpeg" alt="MSI" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">MSI</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (2).jpeg" alt="Purdue University" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Purdue University</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (3).jpeg" alt="Nesma &amp; Partners" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nesma &amp; Partners</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (4).jpeg" alt="Lightspeed Studios" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Lightspeed Studios</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (5).jpeg" alt="Digital Game Association" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Digital Game Assoc.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.44 PM.jpeg" alt="KACST" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">KACST</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM.jpeg" alt="Gen.G" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gen.G Esports</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (1).jpeg" alt="Tencent" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Tencent</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (2).jpeg" alt="Krafton" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Krafton</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (3).jpeg" alt="PUBG Mobile" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">PUBG Mobile</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM.jpeg" alt="Microsoft" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Microsoft</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (1).jpeg" alt="Boeing" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Boeing</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (2).jpeg" alt="Saudi Esports Federation" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Saudi Esports Fed.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM.jpeg" alt="Savvy Games Group" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Savvy Games Group</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM (1).jpeg" alt="Global Game Jam" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Global Game Jam</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM.jpeg" alt="Level Infinite" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Level Infinite</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (1).jpeg" alt="Nine66" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nine66</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (2).jpeg" alt="Gamers Without Borders" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gamers W/O Borders</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM.jpeg" alt="UpDown Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">UpDown Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (1).jpeg" alt="Sheraf Games" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Sheraf Games</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (2).jpeg" alt="Partner" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Partner</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (3).jpeg" alt="Qindeel Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Qindeel Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (4).jpeg" alt="AstraValle Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">AstraValle Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM.jpeg" alt="Exel by Merak" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Exel by Merak</span></div>
+        <!-- duplicate for seamless loop -->
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (1).jpeg" alt="MSI" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">MSI</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (2).jpeg" alt="Purdue University" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Purdue University</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (3).jpeg" alt="Nesma &amp; Partners" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nesma &amp; Partners</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (4).jpeg" alt="Lightspeed Studios" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Lightspeed Studios</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM (5).jpeg" alt="Digital Game Association" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Digital Game Assoc.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.44 PM.jpeg" alt="KACST" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">KACST</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM.jpeg" alt="Gen.G" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gen.G Esports</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (1).jpeg" alt="Tencent" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Tencent</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (2).jpeg" alt="Krafton" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Krafton</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.38 PM (3).jpeg" alt="PUBG Mobile" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">PUBG Mobile</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM.jpeg" alt="Microsoft" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Microsoft</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (1).jpeg" alt="Boeing" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Boeing</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.39 PM (2).jpeg" alt="Saudi Esports Federation" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Saudi Esports Fed.</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM.jpeg" alt="Savvy Games Group" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Savvy Games Group</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.40 PM (1).jpeg" alt="Global Game Jam" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Global Game Jam</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM.jpeg" alt="Level Infinite" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Level Infinite</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (1).jpeg" alt="Nine66" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Nine66</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.41 PM (2).jpeg" alt="Gamers Without Borders" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Gamers W/O Borders</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM.jpeg" alt="UpDown Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">UpDown Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (1).jpeg" alt="Sheraf Games" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Sheraf Games</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (2).jpeg" alt="Partner" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Partner</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (3).jpeg" alt="Qindeel Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Qindeel Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.42 PM (4).jpeg" alt="AstraValle Studio" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">AstraValle Studio</span></div>
+        <div class="logo-pill"><img src="campanies logos/WhatsApp Image 2026-07-01 at 11.20.43 PM.jpeg" alt="Exel by Merak" style="max-height:44px;max-width:110px;object-fit:contain"/><span class="logo-name">Exel by Merak</span></div>
+      </div>
+    </div>
+    <p style="text-align:center;color:rgba(237,224,255,.28);font-size:.8rem">Interested in partnering? <a href="mailto:gamelab@alfaisal.edu" style="color:var(--rose);text-decoration:none">gamelab@alfaisal.edu</a></p>
+  </div>
+</section>
+
+<!-- &#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022;.&#x2022; FOOTER -->
+<footer style="background:rgba(3,0,8,.95);border-top:1px solid rgba(191,0,255,.12);padding:56px 0 28px;position:relative;overflow:visible">
+  <!-- Footer characters -->
+  <img class="ch" src="char/Savvy_Games-Homepage-Careers-Character_02.png" style="width:clamp(160px,17vw,240px);bottom:10%;left:3%;animation:ch-b 5.5s ease-in-out infinite;filter:drop-shadow(0 6px 20px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(204,21,51,.35))"/>
+  <img class="ch" src="char/character-nobg.png" style="width:clamp(160px,17vw,240px);bottom:10%;right:3%;animation:ch-e 4.8s ease-in-out infinite 1s;filter:drop-shadow(0 6px 20px rgba(0,0,0,.6)) drop-shadow(0 0 18px rgba(204,21,51,.35))"/>
+  <div class="max-w-7xl mx-auto px-5" style="position:relative;z-index:1">
+    <div class="grid md:grid-cols-4 gap-10" style="margin-bottom:44px">
+      <div class="md:col-span-1">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <img src="logo3.png" alt="GIC Logo" style="width:46px;height:46px;object-fit:cover;border-radius:50%;flex-shrink:0"/>
+          <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:.95rem;color:var(--cream)">Game Innovation Center</span>
+        </div>
+        <p style="color:rgba(237,224,255,.38);font-size:.83rem;line-height:1.7">Alfaisal University<br/>College of Engineering<br/>Riyadh, KSA</p>
+      </div>
+      <div>
+        <h4 style="font-weight:700;color:rgba(237,224,255,.65);margin-bottom:14px;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase">Programs</h4>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <a href="#programs" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">XR Bootcamp</a>
+          <a href="#programs" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Robogames Academy</a>
+          <a href="#programs" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Esports Academy</a>
+          <a href="#programs" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Game Dev Bootcamp</a>
+          <a href="#programs" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Research Track</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-weight:700;color:rgba(237,224,255,.65);margin-bottom:14px;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase">Navigate</h4>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <a href="#about"      style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">About GIC</a>
+          <a href="#facilities" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Facilities</a>
+          <a href="#events"     style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Events</a>
+          <a href="#team"       style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Team</a>
+          <a href="#news"       style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">News</a>
+          <a href="#faq"        style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--rose)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-weight:700;color:rgba(237,224,255,.65);margin-bottom:14px;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase">Contact</h4>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <a href="mailto:gamelab@alfaisal.edu" style="color:var(--rose);text-decoration:none;font-size:.86rem;font-weight:500">gamelab@alfaisal.edu</a>
+          <a href="#contact" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--pink)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Apply Now &#x2192;</a>
+          <a href="#partners" style="color:rgba(237,224,255,.38);text-decoration:none;font-size:.86rem;transition:color .2s" onmouseover="this.style.color='var(--pink)'" onmouseout="this.style.color='rgba(237,224,255,.38)'">Partner With Us &#x2192;</a>
+          <a href="admin.html" style="color:rgba(237,224,255,.14);text-decoration:none;font-size:.74rem;margin-top:4px">Admin Panel</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(191,0,255,.1);padding-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">
+      <p style="color:rgba(237,224,255,.22);font-size:.78rem">© 2026 Game Innovation Center &mdash; Alfaisal University · Riyadh, KSA</p>
+      <p style="color:rgba(237,224,255,.16);font-size:.74rem">Built with Passion &mdash; Alfaisal University CoE</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Register Modal -->
+<div id="registerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px" onclick="if(event.target===this)closeRegister()">
+  <div style="background:#0d0118;border:1px solid rgba(0,229,255,.3);border-radius:22px;padding:36px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative">
+    <button onclick="closeRegister()" style="position:absolute;top:18px;right:20px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:rgba(237,224,255,.6);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">&#x2715;</button>
+    <div style="margin-bottom:24px">
+      <span style="background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:#00e5ff;padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:600;letter-spacing:.05em">&#x1F3AE; Event Registration</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:900;color:var(--cream);margin-top:12px">Register for Event</h2>
+      <p id="regEventLabel" style="color:#00e5ff;font-size:.9rem;font-weight:600;margin-top:6px"></p>
+    </div>
+    <form id="registerForm" onsubmit="submitRegister(event)" autocomplete="on">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Full Name *</label>
+          <input id="regName" type="text" required placeholder="Your full name" class="f-input"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Email *</label>
+          <input id="regEmail" type="email" required placeholder="you@example.com" class="f-input"/>
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Student ID <span style="font-weight:400;text-transform:none">(optional)</span></label>
+          <input id="regStudentId" type="text" placeholder="e.g. 202012345" class="f-input"/>
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Message <span style="font-weight:400;text-transform:none">(optional)</span></label>
+          <textarea id="regMsg" rows="3" placeholder="Any questions or notes..." class="f-input" style="resize:vertical"></textarea>
+        </div>
+      </div>
+      <div id="regStatus" style="display:none;margin-top:14px;padding:12px 16px;border-radius:10px;font-size:.88rem;font-weight:500"></div>
+      <button type="submit" id="regSubmitBtn" style="width:100%;margin-top:18px;padding:14px;background:linear-gradient(135deg,#00e5ff,#0044ff);border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s">Register Now &rarr;</button>
+    </form>
+  </div>
+</div>
+
+<!-- Apply Modal -->
+<div id="applyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(6px);padding:16px" onclick="if(event.target===this)closeApply()">
+  <div style="background:#0d0118;border:1px solid rgba(191,0,255,.35);border-radius:22px;padding:36px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;position:relative">
+    <button onclick="closeApply()" style="position:absolute;top:18px;right:20px;background:rgba(191,0,255,.12);border:1px solid rgba(191,0,255,.25);color:rgba(237,224,255,.6);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">&#x2715;</button>
+    <div style="margin-bottom:24px">
+      <span style="background:rgba(191,0,255,.15);border:1px solid rgba(191,0,255,.3);color:var(--rose);padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:600;letter-spacing:.05em">&#x1F3AE; Join GIC</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--cream);margin-top:12px">Apply to a Program</h2>
+      <p style="color:rgba(237,224,255,.5);font-size:.88rem;margin-top:6px">Fill in the form below and we'll get back to you shortly.</p>
+    </div>
+    <form id="applyForm" onsubmit="submitApply(event)" autocomplete="on">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="grid-column:1/-1">
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Program *</label>
+          <select id="applyProgram" required style="width:100%;padding:12px 14px;background:rgba(191,0,255,.07);border:1px solid rgba(191,0,255,.25);border-radius:10px;color:var(--cream);font-size:.93rem;outline:none;font-family:'Inter',sans-serif">
+            <option value="" disabled selected>Select a program...</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Full Name *</label>
+          <input id="applyName" type="text" required placeholder="Your full name" class="f-input"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Email *</label>
+          <input id="applyEmail" type="email" required placeholder="you@alfaisal.edu" class="f-input"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Student ID</label>
+          <input id="applyStudentId" type="text" placeholder="e.g. 202012345" class="f-input"/>
+        </div>
+        <div>
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Year Level</label>
+          <select id="applyYear" style="width:100%;padding:12px 14px;background:rgba(191,0,255,.07);border:1px solid rgba(191,0,255,.25);border-radius:10px;color:var(--cream);font-size:.93rem;outline:none;font-family:'Inter',sans-serif">
+            <option value="">Select...</option>
+            <option>Freshman</option><option>Sophomore</option><option>Junior</option><option>Senior</option><option>Graduate</option><option>External / Non-student</option>
+          </select>
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Major / Field of Study</label>
+          <input id="applyMajor" type="text" placeholder="e.g. Software Engineering" class="f-input"/>
+        </div>
+        <div style="grid-column:1/-1">
+          <label style="display:block;font-size:.75rem;font-weight:600;color:rgba(237,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase">Why do you want to join?</label>
+          <textarea id="applyMsg" rows="4" placeholder="Tell us a bit about yourself and your goals..." class="f-input" style="resize:vertical"></textarea>
+        </div>
+      </div>
+      <div id="applyMsg-status" style="display:none;margin-top:14px;padding:12px 16px;border-radius:10px;font-size:.88rem;font-weight:500"></div>
+      <button type="submit" id="applySubmitBtn" style="width:100%;margin-top:18px;padding:14px;background:linear-gradient(135deg,var(--rose),var(--magenta));border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s">Submit Application &rarr;</button>
+    </form>
+  </div>
+</div>
+
+<script>
+//
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+//
+function openMob() {
+  document.getElementById('mobMenu').classList.add('open');
+  document.getElementById('mobOverlay').classList.add('open');
+  document.getElementById('hamBtn').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMob() {
+  document.getElementById('mobMenu').classList.remove('open');
+  document.getElementById('mobOverlay').classList.remove('open');
+  document.getElementById('hamBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+//
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+//
+async function submitContact(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type=submit]');
+  const msg = document.getElementById('formMsg');
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const message = document.getElementById('cMsg').value.trim();
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  msg.style.display = 'none';
+  try {
+    const r = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message })
+    });
+    const d = await r.json();
+    msg.style.display = 'block';
+    if (r.ok) {
+      msg.style.color = '#4ade80';
+      msg.textContent = '✓ Message received! We\'ll be in touch soon.';
+      e.target.reset();
+    } else {
+      msg.style.color = '#f87171';
+      msg.textContent = d.error || 'Something went wrong. Please try again.';
+    }
+  } catch(_) {
+    msg.style.display = 'block';
+    msg.style.color = '#f87171';
+    msg.textContent = 'Connection error. Please try again.';
+  }
+  btn.textContent = 'Send Message';
+  btn.disabled = false;
+}
+
+//
+const evDB = {
+  2022:[{
+    title:'Apps & AR, Gameathon & Mini-Games Exhibition',
+    month:'Summer&mdash;Fall 2022',
+    cover:'8/WhatsApp Image 2026-07-02 at 1.17.37 AM.jpeg',
+    images:[
+      '8/WhatsApp Image 2026-07-02 at 1.17.37 AM (1).jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.38 AM.jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.38 AM (1).jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.38 AM (2).jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.38 AM (3).jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.38 AM (4).jpeg',
+      '8/WhatsApp Image 2026-07-02 at 1.17.39 AM.jpeg'
+    ],
+    desc:'In 2022, the lab introduced a new theme focusing on pre-collegiate students at the "Apps & AR Games Developer" track in the AUEP summer program. The game lab also participated in the Gameathon at Alfaisal University, gathering 10,000+ serious game development enthusiasts. Furthermore, the Game Innovation Center participated in the AI Summit introducing 30 innovative game poster ideas, and launched the annual mini-games exhibition for the first time in Saudi universities &mdash; open to 100+ visitors and reflecting 94 sophomore students\' work on 17 mini-innovative games and posters during Fall 2022.'
+  }],
+  2023:[{
+    title:'Global Game Jam',
+    month:'February 2023',
+    cover:'10/WhatsApp Image 2026-07-02 at 1.26.21 AM.jpeg',
+    images:[
+      '10/WhatsApp Image 2026-07-02 at 1.26.22 AM.jpeg',
+      '10/WhatsApp Image 2026-07-02 at 1.26.22 AM (1).jpeg',
+      '10/WhatsApp Image 2026-07-02 at 1.26.22 AM (2).jpeg',
+      '10/WhatsApp Image 2026-07-02 at 1.26.22 AM (3).jpeg',
+      '10/WhatsApp Image 2026-07-02 at 1.26.22 AM (4).jpeg'
+    ],
+    desc:'In February 2023, the Game Innovation Center hosted the Global Game Jam &mdash; a 3-day event where over 170 participants formed 34 teams to develop games from scratch, guided by the theme "Roots." Coordinated with the Game Developers Association (DGA), teams showcased their game prototypes with 16 presenting playable versions. The jam highlighted the potential of games in education, fostered the local game development community in the Kingdom, and emphasized the blend of engineering creativity and game design expertise.'
+  },{
+    title:'Maze of Hope',
+    month:'May 2023',
+    cover:'11/WhatsApp Image 2026-07-02 at 1.27.44 AM.jpeg',
+    images:['11/WhatsApp Image 2026-07-02 at 1.27.44 AM (1).jpeg'],
+    desc:'Game Innovation Center arranged the "Maze of Hope" event sponsored by Boeing from May 13&mdash;15. This charity initiative, aimed at supporting children with cancer, showcased the talent and compassion of Alfaisal students through a VR maze game developed in collaboration with UpDown Studio &mdash; a startup founded by Alfaisal University students. The event received immense support from various university departments and student associations, underscoring the potential of technology for social good.'
+  },{
+    title:'Summer Workshops',
+    month:'June 2023',
+    cover:'12/WhatsApp Image 2026-07-02 at 1.34.10 AM.jpeg',
+    images:[
+      '12/WhatsApp Image 2026-07-02 at 1.34.10 AM (1).jpeg',
+      '12/WhatsApp Image 2026-07-02 at 1.34.10 AM (2).jpeg'
+    ],
+    desc:'The Game Innovation Center launched a set of workshops in June 2023 including "AI in Games" by Dr. Areej Alwabil and Eng. Hoda Elsayed, "Series Games" by Dr. Hanan Makki, "Building Mobile Game Studios" by Fahy Studio, "XR in Healthcare" as part of the Women in Data Science (WiDS) event, and "2D and 3D Platformer" by the Game Development Club at Alfaisal University &mdash; all as part of the AUEP summer program.'
+  }],
+  2024:[{
+    title:'RoboGames & Esports Academy',
+    month:'Summer 2024',
+    cover:'2/WhatsApp Image 2026-07-02 at 12.55.00 AM.jpeg',
+    images:[
+      '2/WhatsApp Image 2026-07-02 at 12.55.00 AM (1).jpeg',
+      '2/WhatsApp Image 2026-07-02 at 12.55.00 AM (2).jpeg'
+    ],
+    desc:'The RoboGames & Esports Academy, held during the summer semester at Alfaisal University, introduces middle and high school students to the world of robotics and gaming. Organized in collaboration with Gen.G, the academy blends hands-on robotics training with engaging gaming experiences, offering participants a unique opportunity to develop technical skills, teamwork, and creativity in a dynamic learning environment.'
+  },{
+    title:'Gen.G Esports Practicum',
+    month:'2024',
+    cover:'3/WhatsApp Image 2026-07-02 at 12.57.14 AM.jpeg',
+    images:['3/WhatsApp Image 2026-07-02 at 12.57.14 AM (1).jpeg'],
+    desc:'In partnership with Gen.G, the Game Innovation Center hosted the Gen.G Esports Practicum &mdash; a unique program combining academic learning with practical industry exposure. Students explored esports culture and business fundamentals through lectures by Gen.G staff, professional mentorship, and field experiences, with an optional internship track in Korea providing further international exposure.'
+  },{
+    title:'Game Track &mdash; 4th Year SE',
+    month:'2024',
+    cover:'4/WhatsApp Image 2026-07-02 at 12.58.34 AM.jpeg',
+    images:['4/WhatsApp Image 2026-07-02 at 12.58.35 AM.jpeg'],
+    desc:'As part of the Software Engineering program, Alfaisal University offers a specialized Game Track in the fourth year, equipping students with both technical and creative expertise in game development. The track covers game engine architecture, fundamentals of game design, game mechanics with prototyping and production, and innovative topics in immersive game development &mdash; providing a comprehensive pathway from core technical foundations to cutting-edge applications.'
+  },{
+    title:'PUBG Mobile WoW Booth',
+    month:'2024',
+    cover:'7/WhatsApp Image 2026-07-02 at 1.04.11 AM.jpeg',
+    images:[
+      '7/WhatsApp Image 2026-07-02 at 1.04.11 AM (1).jpeg',
+      '7/WhatsApp Image 2026-07-02 at 1.04.11 AM (2).jpeg'
+    ],
+    desc:'In collaboration with Nesma Group, the GIC hosted a PUBG Mobile World of Wonder (WoW) Booth, giving students a hands-on opportunity to explore map design. Participants created and customized their own game modes &mdash; experimenting with terrain, obstacles, and interactive features &mdash; then shared them for others to play. The event also featured a small competition with a cash prize, encouraging creativity, innovation, and practical game design skills.'
+  },{
+    title:'Mini-Games & ProGames Exhibit',
+    month:'December 2024',
+    cover:'5/WhatsApp Image 2026-07-02 at 1.00.35 AM.jpeg',
+    images:[
+      '5/WhatsApp Image 2026-07-02 at 1.00.35 AM (1).jpeg',
+      '5/WhatsApp Image 2026-07-02 at 1.00.35 AM (2).jpeg',
+      '5/WhatsApp Image 2026-07-02 at 1.00.35 AM (3).jpeg'
+    ],
+    desc:'The Annual Mini-Games & ProGames Exhibit, held December 8&mdash;10, 2024, highlighted the creativity and technical growth of students in the newly launched Game Development and Digital Media Track. With over 130 participants and 35 projects on display, the event brought together sophomore and senior students showcasing work across Creative Execution, Esports, Narrative and Design, and Games for Good. Supported by MSI, Immerstec VR, Qandeel Studio, Shafra Games, 6wrni.com, and UpDown Studio.'
+  }],
+  2025:[{
+    title:'Global Game Jam',
+    month:'January 2025',
+    cover:'1/WhatsApp Image 2026-07-02 at 12.52.45 AM.jpeg',
+    images:['1/WhatsApp Image 2026-07-02 at 12.52.45 AM (1).jpeg'],
+    desc:'In January 2025, the Game Innovation Center hosted the Global Game Jam &mdash; a 3-day event where over 120 participants formed teams to develop games from scratch, guided by the theme "Bubbles!". Teams showcased their prototypes with 33 presenting playable versions. The jam highlighted the potential of games in education, fostered the local game development community in the Kingdom, and emphasized the blend of creativity, engineering, and game design expertise.'
+  },{
+    title:'Research Call 2025&mdash;2026',
+    month:'2025',
+    cover:'6/WhatsApp Image 2026-07-02 at 1.02.15 AM.jpeg',
+    images:['6/WhatsApp Image 2026-07-02 at 1.02.15 AM (1).jpeg'],
+    desc:'The Game Innovation Center is strongly focused on research. During the 2025&mdash;2026 Academic Year, the annual research call hosted over 120 interested members, with 100+ members signing up to participate in ongoing research and projects. These projects span 4 main categories: Sports, Games, Virtual Reality, and IoT &mdash; resulting in publications, patents, and capstone projects with real-world impact.'
+  },{
+    title:'Gaming Innovation Conference',
+    month:'May 2025',
+    cover:'9/WhatsApp Image 2026-07-02 at 12.49.15 AM.jpeg',
+    images:[
+      '9/WhatsApp Image 2026-07-02 at 12.49.16 AM.jpeg',
+      '9/WhatsApp Image 2026-07-02 at 12.49.16 AM (1).jpeg',
+      '9/WhatsApp Image 2026-07-02 at 12.49.16 AM (2).jpeg',
+      '9/WhatsApp Image 2026-07-02 at 12.49.16 AM (3).jpeg',
+      '9/WhatsApp Image 2026-07-02 at 12.49.16 AM (4).jpeg'
+    ],
+    desc:'In May 2025, the lab held the Alfaisal Gaming Innovation Conference &mdash; a 2-day event bringing 40+ speakers from the local and international game development community, serving as a dynamic platform for 250+ Game Innovators to converge, collaborate, and catalyze the Kingdom\'s gaming ecosystem. The event hosted workshops on Esports, Content Creation, Blockchain & AI in Gaming, Immersive Experiences (VR & MR), and Game Development & Design &mdash; plus a game development tournament in collaboration with the Game Development Club.'
+  }]
+};
+
+let evActiveYear = 2025;
+let evActiveIdx = 0;
+
+function evRenderYear(year, idx) {
+  evActiveYear = year; evActiveIdx = idx || 0;
+  // update year tab buttons
+  document.querySelectorAll('.ev-year-btn').forEach(b => {
+    b.classList.toggle('active', +b.dataset.year === year);
+  });
+  const events = evDB[year];
+  const ev = events[evActiveIdx];
+  let html = '';
+  // sub-tabs
+  if (events.length > 1) {
+    html += '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px">';
+    events.forEach((e,i) => {
+      html += `<button class="ev-sub-btn${i===evActiveIdx?' active':''}" onclick="evRenderYear(${year},${i})">${e.title}</button>`;
+    });
+    html += '</div>';
+  }
+  // cover
+  html += `<div class="ev-cover"><img src="${ev.cover}" alt="${ev.title}" loading="lazy"/><div class="ev-cover-overlay"></div><div class="ev-cover-badge"><h3>${ev.title}</h3><span>${ev.month}</span></div></div>`;
+  // description
+  html += `<p class="ev-desc">${ev.desc}</p>`;
+  // register button — only for upcoming events
+  const evYear = year;
+  const now = new Date();
+  const monthNames = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  const evMonthIdx = monthNames.indexOf((ev.month||'').slice(0,3).toLowerCase());
+  const evDate = new Date(evYear, evMonthIdx !== -1 ? evMonthIdx : 11, 28);
+  if (evDate >= new Date(now.getFullYear(), now.getMonth(), 1)) {
+    html += `<div style="margin:24px 0 8px"><button onclick="openRegister('${ev.title.replace(/'/g,"\\'")}')" style="padding:12px 28px;background:linear-gradient(135deg,#00e5ff,#0044ff);border:none;border-radius:12px;color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">&#x1F4DD; Register for this Event</button></div>`;
+  } else {
+    html += `<div style="margin:24px 0 8px;display:inline-block;padding:10px 22px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:rgba(237,224,255,.4);font-size:.88rem">&#x2705; This event has already taken place</div>`;
+  }
+  // gallery
+  if (ev.images && ev.images.length) {
+    html += '<div class="ev-gallery">';
+    ev.images.forEach(src => {
+      html += `<img src="${src}" alt="" loading="lazy" onclick="evLightbox(this.src)"/>`;
+    });
+    html += '</div>';
+  }
+  document.getElementById('evContent').innerHTML = html;
+}
+
+function evLightbox(src) {
+  const lb = document.createElement('div');
+  lb.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out';
+  lb.onclick = () => lb.remove();
+  lb.innerHTML = `<img src="${src}" style="max-width:92vw;max-height:90vh;object-fit:contain;border-radius:14px;box-shadow:0 0 60px rgba(191,0,255,.3)"/>`;
+  document.body.appendChild(lb);
+}
+
+function evInit() {
+  const years = Object.keys(evDB).map(Number).sort((a,b)=>b-a);
+  const tabs = document.getElementById('evYearTabs');
+  if (!tabs) return;
+  tabs.innerHTML = years.map(y =>
+    `<button class="ev-year-btn" data-year="${y}" onclick="evRenderYear(${y},0)">${y}</button>`
+  ).join('');
+  evRenderYear(2025, 0);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', evInit);
+} else {
+  evInit();
+}
+
+//
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+});
+
+//
+(function(){
+  const FRAME_COUNT = 226;
+  const READY_AT = 226;
+  const FRAME_PATH = i => `frames222/ezgif-frame-${String(i).padStart(3,'0')}.png`;
+
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  const imgs = new Array(FRAME_COUNT).fill(null);
+  let loaded = 0;
+  let targetFrame = 0;
+  let lastPainted = -1;
+  let unlocked = false;
+
+  // Loader
+  const loader = document.createElement('div');
+  loader.style.cssText = 'position:fixed;inset:0;background:#06000F;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s';
+  loader.innerHTML = `
+    <svg id="ld-svg" style="position:fixed;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none">
+      <defs>
+        <linearGradient id="ld-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="100%" y2="0">
+          <stop offset="0%"   stop-color="#BF00FF"/>
+          <stop offset="40%"  stop-color="#00E5FF"/>
+          <stop offset="100%" stop-color="#FF00CC"/>
+        </linearGradient>
+      </defs>
+      <rect id="ld-rect" x="5" y="5" fill="none"
+            stroke="url(#ld-grad)" stroke-width="3" stroke-linecap="square"
+            style="filter:drop-shadow(0 0 8px #BF00FF) drop-shadow(0 0 18px rgba(0,229,255,.5))"/>
+    </svg>
+    <img src="logo3.png" alt="GIC Logo" style="width:90px;height:90px;object-fit:cover;border-radius:50%;margin-bottom:20px;filter:drop-shadow(0 0 18px rgba(191,0,255,.6))"/>
+    <div style="color:#BF00FF;font-size:1.05rem;font-family:'Playfair Display',serif;letter-spacing:.15em;opacity:.8">Loading...</div>`;
+
+  document.body.appendChild(loader);
+
+  // init SVG rect size & dasharray &mdash; must run after appended to DOM
+  (function initLdRect(){
+    const r = document.getElementById('ld-rect');
+    if (!r) return;
+    const W = window.innerWidth - 10, H = window.innerHeight - 10;
+    r.setAttribute('width', W);
+    r.setAttribute('height', H);
+    const perim = 2 * (W + H);
+    r.style.strokeDasharray = perim;
+    r.style.strokeDashoffset = perim;
+    window._ldPerim = perim;
+  })();
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    lastPainted = -1;
+  }
+
+  function paint(index) {
+    let img = imgs[index];
+    if (!img) {
+      for (let d = 1; d <= index; d++) { if (imgs[index - d]) { img = imgs[index - d]; break; } }
+    }
+    if (!img || index === lastPainted) return;
+    lastPainted = index;
+    const cw = canvas.width, ch = canvas.height;
+    const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    const w = img.naturalWidth * s, h = img.naturalHeight * s;
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+  }
+
+  // RAF loop &mdash; always in sync with display refresh
+  function loop() {
+    if (unlocked) paint(targetFrame);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  window.addEventListener('scroll', () => {
+    if (!unlocked) return;
+    const p = Math.min(1, window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+    targetFrame = Math.min(FRAME_COUNT - 1, Math.floor(p * FRAME_COUNT));
+  }, { passive: true });
+
+  window.addEventListener('resize', resize);
+
+  // Load sequentially in 4 chains
+  let next = 0;
+  function loadNext() {
+    if (next >= FRAME_COUNT) return;
+    const i = next++;
+    const img = new Image();
+    img.onload = () => {
+      imgs[i] = img;
+      loaded++;
+      const r = document.getElementById('ld-rect');
+      if (r && window._ldPerim) r.style.strokeDashoffset = window._ldPerim * (1 - loaded / READY_AT);
+      if (loaded === READY_AT) {
+        unlocked = true;
+        // jump to correct frame for current scroll position
+        const p = Math.min(1, window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+        targetFrame = Math.min(FRAME_COUNT - 1, Math.floor(p * FRAME_COUNT));
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      }
+      loadNext();
+    };
+    img.onerror = () => { loaded++; loadNext(); };
+    img.src = FRAME_PATH(i + 1);
+  }
+  for (let c = 0; c < 16; c++) loadNext();
+
+  resize();
+})();
+
+//
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.sec-title, .eyebrow, .rose-line, .director-card, .involve-block, .faq-item').forEach(el => {
+    el.classList.add('anim-fade-up');
+    observer.observe(el);
+  });
+
+  const cardSelectors = '.stat-card, .prog-card, .proj-card, .fac-card, .team-card, .news-card, .partner-logo';
+  document.querySelectorAll(cardSelectors).forEach((el, i) => {
+    el.classList.add('anim-scale-in');
+    const siblings = el.parentElement.querySelectorAll(cardSelectors.split(',').map(s=>s.trim()).join(','));
+    const idx = Array.from(siblings).indexOf(el);
+    el.style.transitionDelay = Math.min(idx * 50, 100) + 'ms';
+    observer.observe(el);
+  });
+})();
+
+// Register modal
+let _regEventTitle = '';
+function openRegister(eventTitle) {
+  _regEventTitle = eventTitle;
+  document.getElementById('regEventLabel').textContent = '📅 ' + eventTitle;
+  document.getElementById('registerModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeRegister() {
+  document.getElementById('registerModal').style.display = 'none';
+  document.body.style.overflow = '';
+  document.getElementById('regStatus').style.display = 'none';
+  document.getElementById('registerForm').reset();
+}
+async function submitRegister(e) {
+  e.preventDefault();
+  const btn = document.getElementById('regSubmitBtn');
+  const status = document.getElementById('regStatus');
+  btn.textContent = 'Registering...';
+  btn.disabled = true;
+  status.style.display = 'none';
+  const body = {
+    event_title: _regEventTitle,
+    name:       document.getElementById('regName').value.trim(),
+    email:      document.getElementById('regEmail').value.trim(),
+    student_id: document.getElementById('regStudentId').value.trim(),
+    message:    document.getElementById('regMsg').value.trim(),
+  };
+  try {
+    const r = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    status.style.display = 'block';
+    if (r.ok) {
+      status.style.cssText = 'display:block;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;padding:12px 16px;border-radius:10px;font-size:.88rem;font-weight:500';
+      status.textContent = '✓ You’re registered! We’ll send confirmation details to your email.';
+      document.getElementById('registerForm').reset();
+      setTimeout(closeRegister, 3000);
+    } else {
+      status.style.cssText = 'display:block;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:12px 16px;border-radius:10px;font-size:.88rem;font-weight:500';
+      status.textContent = d.error || 'Something went wrong. Please try again.';
+    }
+  } catch(_) {
+    status.style.cssText = 'display:block;color:#f87171;padding:12px 16px;border-radius:10px;font-size:.88rem';
+    status.textContent = 'Connection error. Please try again.';
+  }
+  btn.textContent = 'Register Now →';
+  btn.disabled = false;
+}
+
+// Apply modal
+let _applyPrograms = [];
+function openApply() {
+  const m = document.getElementById('applyModal');
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  // Populate program dropdown from loaded data or fetch
+  const sel = document.getElementById('applyProgram');
+  if (_applyPrograms.length) {
+    populateProgramSelect(sel, _applyPrograms);
+  }
+}
+function closeApply() {
+  document.getElementById('applyModal').style.display = 'none';
+  document.body.style.overflow = '';
+  const s = document.getElementById('applyMsg-status');
+  s.style.display = 'none';
+  document.getElementById('applyForm').reset();
+}
+function populateProgramSelect(sel, programs) {
+  if (sel.options.length > 1) return; // already populated
+  programs.forEach(p => {
+    const o = document.createElement('option');
+    o.value = o.textContent = p.title;
+    sel.appendChild(o);
+  });
+}
+async function submitApply(e) {
+  e.preventDefault();
+  const btn = document.getElementById('applySubmitBtn');
+  const status = document.getElementById('applyMsg-status');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+  status.style.display = 'none';
+  const body = {
+    program:    document.getElementById('applyProgram').value,
+    name:       document.getElementById('applyName').value.trim(),
+    email:      document.getElementById('applyEmail').value.trim(),
+    student_id: document.getElementById('applyStudentId').value.trim(),
+    year_level: document.getElementById('applyYear').value,
+    major:      document.getElementById('applyMajor').value.trim(),
+    message:    document.getElementById('applyMsg').value.trim(),
+  };
+  try {
+    const r = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    status.style.display = 'block';
+    if (r.ok) {
+      status.style.background = 'rgba(74,222,128,.1)';
+      status.style.border = '1px solid rgba(74,222,128,.3)';
+      status.style.color = '#4ade80';
+      status.textContent = '✓ Application submitted! We’ll review it and reach out to you soon.';
+      document.getElementById('applyForm').reset();
+      setTimeout(closeApply, 3000);
+    } else {
+      status.style.background = 'rgba(248,113,113,.1)';
+      status.style.border = '1px solid rgba(248,113,113,.3)';
+      status.style.color = '#f87171';
+      status.textContent = d.error || 'Something went wrong. Please try again.';
+    }
+  } catch(_) {
+    status.style.display = 'block';
+    status.style.color = '#f87171';
+    status.textContent = 'Connection error. Please try again.';
+  }
+  btn.textContent = 'Submit Application →';
+  btn.disabled = false;
+}
+
+// Dynamic content from Supabase via /api/content
+(async function loadContent() {
+  try {
+    const res = await fetch('/api/content');
+    if (!res.ok) return;
+    const data = await res.json();
+
+    // Hero stats
+    const h = data.hero || {};
+    if (h.stat1) { setText('heroStat1Val', h.stat1.value); setText('heroStat1Lbl', h.stat1.label); }
+    if (h.stat2) { setText('heroStat2Val', h.stat2.value); setText('heroStat2Lbl', h.stat2.label); }
+    if (h.stat3) { setText('heroStat3Val', h.stat3.value); setText('heroStat3Lbl', h.stat3.label); }
+
+    // Cache programs for apply modal
+    if (data.programs && data.programs.length) {
+      _applyPrograms = data.programs;
+      populateProgramSelect(document.getElementById('applyProgram'), data.programs);
+    }
+
+    // Programs
+    const pgGrid = document.getElementById('programsGrid');
+    if (pgGrid && data.programs && data.programs.length) {
+      pgGrid.innerHTML = data.programs.map(p => `
+        <div class="prog-card">
+          <span class="prog-badge" style="background:${p.badgeColor};border:1px solid ${p.badgeBorder};color:${p.badgeText}">${esc(p.badge)}</span>
+          <div style="font-size:2.2rem;margin-bottom:14px">${p.icon}</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:10px">${esc(p.title)}</h3>
+          <p class="sec-sub" style="font-size:.9rem">${esc(p.desc)}</p>
+        </div>`).join('');
+      animateCards(pgGrid);
+    }
+
+    // News
+    const newsGrid = document.getElementById('newsGrid');
+    if (newsGrid && data.news && data.news.length) {
+      const badgeColors = [
+        'background:rgba(191,0,255,.15);border:1px solid rgba(191,0,255,.3);color:var(--rose)',
+        'background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.25);color:var(--pink)',
+        'background:rgba(255,0,204,.1);border:1px solid rgba(255,0,204,.25);color:var(--magenta)'
+      ];
+      newsGrid.innerHTML = data.news.map((n, i) => `
+        <div class="news-card">
+          <span class="news-badge" style="${badgeColors[i % badgeColors.length]}">${esc(n.tag)}</span>
+          <p style="font-size:.78rem;color:rgba(237,224,255,.38);margin-bottom:10px">${esc(n.date)}</p>
+          <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:10px">${esc(n.title)}</h3>
+          <p class="sec-sub" style="font-size:.88rem">${esc(n.desc)}</p>
+        </div>`).join('');
+      animateCards(newsGrid);
+    }
+
+    // FAQ
+    const faqList = document.getElementById('faqList');
+    if (faqList && data.faq && data.faq.length) {
+      faqList.innerHTML = data.faq.map(f => `
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ${esc(f.q)}
+            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-a">${esc(f.a)}</div>
+        </div>`).join('');
+    }
+
+    // Team — grouped by category
+    const teamSection = document.getElementById('teamSection');
+    if (teamSection && data.team && data.team.length) {
+      const groups = { director: [], assistant: [], faculty: [], student: [] };
+      data.team.forEach(m => { if (groups[m.category]) groups[m.category].push(m); });
+
+      const avatarGrads = ['var(--rose),var(--blue)','var(--blue),var(--pink)','var(--magenta),var(--rose)','var(--pink),var(--blue)','var(--rose),var(--magenta)','var(--blue),var(--rose)'];
+      function memberCard(m, i, isFaculty) {
+        const grad = avatarGrads[i % avatarGrads.length];
+        const avatar = m.photo
+          ? `<div class="team-avatar" style="overflow:hidden;padding:0;background:none;width:${isFaculty?'140':'130'}px;height:${isFaculty?'140':'130'}px"><img src="${m.photo}" alt="${esc(m.name)}" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>`
+          : `<div class="team-avatar" style="background:linear-gradient(135deg,${grad})">${esc(m.initials)}</div>`;
+        const extra = isFaculty ? 'style="aspect-ratio:1/1;justify-content:center;max-width:200px;margin:0 auto"' : '';
+        return `<div class="team-card" ${extra}>${avatar}
+          <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--cream);font-size:.95rem;margin-bottom:4px">${esc(m.name)}</div>
+          <div style="font-size:.76rem;color:rgba(237,224,255,.38)">${esc(m.role)}</div>
+        </div>`;
+      }
+
+      let html = '';
+      if (groups.director.length) {
+        html += `<p style="font-weight:700;color:rgba(237,224,255,.45);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px">Lab Director</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" style="margin-bottom:56px">${groups.director.map((m,i)=>memberCard(m,i,true)).join('')}</div>`;
+      }
+      if (groups.assistant.length) {
+        html += `<p style="font-weight:700;color:rgba(237,224,255,.45);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px">Lab Assistants</p>
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-6" style="margin-bottom:56px">${groups.assistant.map((m,i)=>memberCard(m,i,false)).join('')}</div>`;
+      }
+      if (groups.faculty.length) {
+        html += `<p style="font-weight:700;color:rgba(237,224,255,.45);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px">Faculty Affiliates</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6" style="margin-bottom:56px">${groups.faculty.map((m,i)=>memberCard(m,i,true)).join('')}</div>`;
+      }
+      if (groups.student.length) {
+        html += `<p style="font-weight:700;color:rgba(237,224,255,.45);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:24px">Student Affiliates &mdash; GDC</p>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6" style="margin-bottom:40px">${groups.student.map((m,i)=>memberCard(m,i,false)).join('')}</div>`;
+      }
+      teamSection.innerHTML = html;
+      animateCards(teamSection);
+    }
+
+  } catch(e) { console.warn('Content load failed', e); }
+
+  function setText(id, val) { const el = document.getElementById(id); if (el && val != null) el.textContent = val; }
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function animateCards(parent) {
+    parent.querySelectorAll('.prog-card,.news-card,.team-card').forEach((el, i) => {
+      el.classList.add('anim-scale-in');
+      el.style.transitionDelay = Math.min(i * 50, 100) + 'ms';
+      setTimeout(() => el.classList.add('is-visible'), 50 + i * 30);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
+

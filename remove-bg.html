@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Remove Background</title>
+<style>
+  body { background:#111; color:#fff; font-family:sans-serif; display:flex; flex-direction:column; align-items:center; padding:40px; gap:20px; }
+  canvas { border:1px solid #444; max-width:400px; }
+  button { background:#BF00FF; color:#fff; border:none; padding:12px 28px; border-radius:8px; font-size:1rem; cursor:pointer; }
+  button:hover { background:#9900cc; }
+  label { background:#333; padding:12px 24px; border-radius:8px; cursor:pointer; }
+  input[type=file] { display:none; }
+  .row { display:flex; align-items:center; gap:12px; }
+  select { background:#333; color:#fff; border:1px solid #555; padding:8px 12px; border-radius:8px; font-size:.95rem; }
+</style>
+</head>
+<body>
+<h2>Background Remover</h2>
+
+<label>📂 Choose Image <input type="file" id="fileIn" accept="image/*"></label>
+
+<div class="row">
+  <span>Mode:</span>
+  <select id="mode">
+    <option value="dark">Remove Dark/Black BG</option>
+    <option value="white">Remove White BG</option>
+    <option value="color">Remove Custom Color</option>
+  </select>
+</div>
+
+<div class="row">
+  <span>Threshold:</span>
+  <input type="range" id="thresh" min="5" max="150" value="40" style="width:200px">
+  <span id="threshVal">40</span>
+</div>
+
+<div class="row" id="colorRow" style="display:none">
+  <span>BG Color:</span>
+  <input type="color" id="bgColor" value="#000000" style="width:50px;height:36px;border:none;cursor:pointer;background:none">
+</div>
+
+<canvas id="cv"></canvas>
+<button id="dlBtn" style="display:none">⬇ Download as PNG</button>
+
+<script>
+const fileIn = document.getElementById('fileIn');
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+const dlBtn = document.getElementById('dlBtn');
+const thresh = document.getElementById('thresh');
+const threshVal = document.getElementById('threshVal');
+const mode = document.getElementById('mode');
+const bgColor = document.getElementById('bgColor');
+const colorRow = document.getElementById('colorRow');
+let img = null;
+
+fileIn.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  img = new Image();
+  img.onload = () => { process(); };
+  img.src = url;
+});
+
+thresh.addEventListener('input', () => { threshVal.textContent = thresh.value; if (img) process(); });
+mode.addEventListener('change', () => { colorRow.style.display = mode.value === 'color' ? 'flex' : 'none'; if (img) process(); });
+bgColor.addEventListener('input', () => { if (img) process(); });
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return [r,g,b];
+}
+
+function colorDist(r1,g1,b1,r2,g2,b2) {
+  return Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2);
+}
+
+function process() {
+  cv.width = img.naturalWidth;
+  cv.height = img.naturalHeight;
+  ctx.drawImage(img, 0, 0);
+
+  const data = ctx.getImageData(0, 0, cv.width, cv.height);
+  const d = data.data;
+  const t = parseInt(thresh.value);
+  const m = mode.value;
+
+  // Auto-detect BG color from corners if mode=color
+  let [tr, tg, tb] = hexToRgb(bgColor.value);
+
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i+1], b = d[i+2];
+    let alpha = 255;
+
+    if (m === 'dark') {
+      // Remove dark/black pixels
+      const darkness = Math.max(r, g, b);
+      if (darkness < t) {
+        alpha = 0;
+      } else if (darkness < t * 2) {
+        alpha = Math.round(((darkness - t) / t) * 255);
+      }
+    } else if (m === 'white') {
+      // Remove white pixels
+      const brightness = Math.min(r, g, b);
+      if (brightness > 255 - t) {
+        alpha = 0;
+      } else if (brightness > 255 - t * 2) {
+        alpha = Math.round(((255 - t - brightness) / t) * 255 + 255 - t);
+        alpha = Math.max(0, Math.min(255, (brightness - (255 - t*2)) / t * 255));
+        alpha = 255 - alpha;
+      }
+    } else if (m === 'color') {
+      const dist = colorDist(r, g, b, tr, tg, tb);
+      if (dist < t) {
+        alpha = 0;
+      } else if (dist < t * 2) {
+        alpha = Math.round(((dist - t) / t) * 255);
+      }
+    }
+
+    d[i+3] = Math.min(d[i+3], alpha);
+  }
+
+  ctx.putImageData(data, 0, 0);
+  dlBtn.style.display = 'block';
+}
+
+dlBtn.addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = cv.toDataURL('image/png');
+  a.download = 'character-nobg.png';
+  a.click();
+});
+</script>
+</body>
+</html>

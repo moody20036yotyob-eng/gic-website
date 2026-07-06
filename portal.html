@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Student Portal — GIC Alfaisal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#06000F;--card:#0D0820;--border:rgba(191,0,255,.18);--accent:#BF00FF;--cyan:#00E5FF;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--text:#EDE0FF;--muted:rgba(237,224,255,.45)}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+
+/* Animated background */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(191,0,255,.12),transparent),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(0,229,255,.07),transparent);pointer-events:none;z-index:0}
+
+/* Header */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(20px);background:rgba(6,0,15,.8);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#BF00FF,#FF00CC);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff}
+.logo-text{font-size:1rem;font-weight:700;color:var(--text)}
+.logo-sub{font-size:.7rem;color:var(--muted);display:block}
+.header-right{display:flex;align-items:center;gap:12px}
+.btn-logout{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:7px 16px;border-radius:8px;cursor:pointer;font-size:.82rem;transition:.2s}
+.btn-logout:hover{background:rgba(239,68,68,.22)}
+.user-chip{background:rgba(191,0,255,.12);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.8rem;color:var(--muted)}
+
+/* Login page */
+#loginPage{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:48px 40px;width:100%;max-width:420px;position:relative;overflow:hidden}
+.login-card::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(191,0,255,.25),transparent);pointer-events:none}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-logo .icon{width:64px;height:64px;background:linear-gradient(135deg,#BF00FF,#FF00CC);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff;margin:0 auto 12px}
+.login-logo h1{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,#BF00FF,#00E5FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-logo p{color:var(--muted);font-size:.85rem;margin-top:4px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:7px;font-weight:500}
+.form-group input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:12px 16px;color:var(--text);font-size:.9rem;outline:none;transition:.2s}
+.form-group input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(191,0,255,.12)}
+.form-group input::placeholder{color:rgba(237,224,255,.2)}
+.form-hint{font-size:.75rem;color:var(--muted);margin-top:5px}
+.btn-login{width:100%;padding:14px;background:linear-gradient(135deg,#BF00FF,#7c3aed);border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:8px}
+.btn-login:hover{opacity:.9;transform:translateY(-1px)}
+.btn-login:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.error-msg{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;border-radius:10px;padding:12px 16px;font-size:.85rem;margin-bottom:16px;display:none}
+.back-link{text-align:center;margin-top:20px;font-size:.8rem;color:var(--muted)}
+.back-link a{color:var(--cyan);text-decoration:none}
+.back-link a:hover{text-decoration:underline}
+
+/* Dashboard */
+#dashPage{display:none;padding:100px 24px 48px;max-width:900px;margin:0 auto;position:relative;z-index:1}
+.welcome-banner{background:linear-gradient(135deg,rgba(191,0,255,.12),rgba(0,229,255,.08));border:1px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:32px}
+.welcome-banner h2{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.welcome-banner p{color:var(--muted);font-size:.88rem}
+
+.section-title{font-size:1.1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title span{background:var(--accent);border-radius:6px;padding:3px 10px;font-size:.75rem;font-weight:600}
+
+/* Status badge */
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.badge-pending{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.badge-accepted,.badge-confirmed{background:rgba(16,185,129,.15);color:#10b981;border:1px solid rgba(16,185,129,.3)}
+.badge-rejected,.badge-cancelled{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:14px;transition:.2s}
+.card:hover{border-color:rgba(191,0,255,.35);transform:translateY(-1px)}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.card-title{font-size:1rem;font-weight:700}
+.card-date{color:var(--muted);font-size:.78rem;margin-top:4px}
+.card-detail{color:var(--muted);font-size:.84rem;line-height:1.6}
+.card-detail strong{color:var(--text)}
+.empty-state{text-align:center;padding:48px 24px;color:var(--muted)}
+.empty-state .icon{font-size:2.5rem;margin-bottom:12px}
+.empty-state p{font-size:.9rem}
+
+/* Timeline dot */
+.status-timeline{display:flex;gap:0;margin-top:16px}
+.tl-step{flex:1;text-align:center;position:relative}
+.tl-step::before{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:rgba(255,255,255,.08)}
+.tl-step:last-child::before{display:none}
+.tl-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);position:relative;z-index:1}
+.tl-dot.active{background:var(--accent);border-color:var(--accent);box-shadow:0 0 12px rgba(191,0,255,.5)}
+.tl-dot.done{background:var(--green);border-color:var(--green)}
+.tl-dot.failed{background:var(--red);border-color:var(--red)}
+.tl-label{font-size:.68rem;color:var(--muted)}
+
+.section-block{margin-bottom:40px}
+
+/* Spinner */
+.spinner{width:40px;height:40px;border:3px solid rgba(191,0,255,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:60px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- Header (shown when logged in) -->
+<div class="header" id="siteHeader" style="display:none">
+  <a class="logo" href="/">
+    <div class="logo-icon">G</div>
+    <div><span class="logo-text">GIC Alfaisal</span><span class="logo-sub">Student Portal</span></div>
+  </a>
+  <div class="header-right">
+    <span class="user-chip" id="userEmail"></span>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
+  </div>
+</div>
+
+<!-- Login Page -->
+<div id="loginPage">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="icon">G</div>
+      <h1>Student Portal</h1>
+      <p>Track your applications &amp; event registrations</p>
+    </div>
+    <div class="error-msg" id="loginError"></div>
+    <form onsubmit="doLogin(event)">
+      <div class="form-group">
+        <label>University Email</label>
+        <input type="email" id="loginEmail" placeholder="you@alfaisal.edu" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label>Student ID <span style="color:var(--muted);font-weight:400">(optional but recommended)</span></label>
+        <input type="text" id="loginStudentId" placeholder="e.g. 220012345" autocomplete="off">
+        <div class="form-hint">Providing your Student ID improves security and verifies your identity.</div>
+      </div>
+      <button class="btn-login" type="submit" id="loginBtn">Sign In</button>
+    </form>
+    <div class="back-link"><a href="/">← Back to GIC Website</a></div>
+  </div>
+</div>
+
+<!-- Dashboard Page -->
+<div id="dashPage">
+  <div class="spinner" id="loadingSpinner"></div>
+
+  <div id="dashContent" style="display:none">
+    <div class="welcome-banner">
+      <h2>Welcome back 👋</h2>
+      <p id="welcomeEmail" style="margin-top:4px"></p>
+      <p style="margin-top:8px;font-size:.82rem">Here's an overview of all your submissions to the GIC.</p>
+    </div>
+
+    <!-- Applications -->
+    <div class="section-block">
+      <div class="section-title">📋 Program Applications <span id="appCount">0</span></div>
+      <div id="appList"></div>
+    </div>
+
+    <!-- Registrations -->
+    <div class="section-block">
+      <div class="section-title">📝 Event Registrations <span id="regCount">0</span></div>
+      <div id="regList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let TOKEN = localStorage.getItem('studentToken') || '';
+
+function showError(msg){
+  const el=document.getElementById('loginError');
+  el.textContent=msg; el.style.display='block';
+}
+function hideError(){ document.getElementById('loginError').style.display='none'; }
+
+async function doLogin(e){
+  e.preventDefault(); hideError();
+  const email = document.getElementById('loginEmail').value.trim();
+  const sid   = document.getElementById('loginStudentId').value.trim();
+  const btn   = document.getElementById('loginBtn');
+  btn.disabled=true; btn.textContent='Signing in…';
+  try {
+    const r = await fetch(`${API}/api/student/login`,{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, student_id: sid})
+    });
+    const d = await r.json();
+    if(!r.ok) { showError(d.error||'Login failed'); return; }
+    TOKEN = d.token;
+    localStorage.setItem('studentToken', TOKEN);
+    showDash(email);
+  } catch(_){ showError('Network error. Is the server running?'); }
+  finally { btn.disabled=false; btn.textContent='Sign In'; }
+}
+
+function showDash(email){
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('siteHeader').style.display='flex';
+  document.getElementById('dashPage').style.display='block';
+  document.getElementById('userEmail').textContent=email;
+  document.getElementById('welcomeEmail').textContent=email;
+  loadDash();
+}
+
+async function loadDash(){
+  document.getElementById('loadingSpinner').style.display='block';
+  document.getElementById('dashContent').style.display='none';
+  try {
+    const r = await fetch(`${API}/api/student/dashboard`,{headers:{Authorization:`Bearer ${TOKEN}`}});
+    if(r.status===401){ logout(); return; }
+    const d = await r.json();
+    document.getElementById('userEmail').textContent=d.email;
+    document.getElementById('welcomeEmail').textContent=d.email;
+    renderApps(d.applications||[]);
+    renderRegs(d.registrations||[]);
+    document.getElementById('loadingSpinner').style.display='none';
+    document.getElementById('dashContent').style.display='block';
+  } catch(_){
+    document.getElementById('loadingSpinner').innerHTML='<p style="color:#ef4444;text-align:center">Failed to load data. Please refresh.</p>';
+  }
+}
+
+const STATUS_STEPS_APP = ['pending','accepted'];
+const STATUS_STEPS_REG = ['pending','confirmed'];
+
+function timelineApp(status){
+  const steps=[
+    {key:'pending',  icon:'⏳', label:'Submitted'},
+    {key:'reviewing',icon:'🔍', label:'Reviewing'},
+    {key:'accepted', icon:'✅', label:'Accepted'},
+  ];
+  const rejected = status==='rejected';
+  return `<div class="status-timeline">`+steps.map((s,i)=>{
+    const isActive = s.key===status;
+    const idx = steps.findIndex(x=>x.key===status);
+    const isDone = !rejected && i < (idx===-1?0:idx);
+    const cls = isActive?(rejected&&s.key==='accepted'?'failed':s.key==='rejected'?'failed':'active'): isDone?'done':'';
+    return `<div class="tl-step"><div class="tl-dot ${cls}">${s.icon}</div><div class="tl-label">${s.label}</div></div>`;
+  }).join('')+(rejected?`<div class="tl-step"><div class="tl-dot failed">❌</div><div class="tl-label">Rejected</div></div>`:'')+'</div>';
+}
+
+function timelineReg(status){
+  const steps=[
+    {key:'pending',   icon:'⏳', label:'Registered'},
+    {key:'confirmed', icon:'✅', label:'Confirmed'},
+  ];
+  const cancelled = status==='cancelled';
+  return `<div class="status-timeline">`+steps.map((s,i)=>{
+    const isActive = s.key===status;
+    const idx = steps.findIndex(x=>x.key===status);
+    const isDone = !cancelled && i < (idx===-1?0:idx);
+    const cls = isActive?'active': isDone?'done':'';
+    return `<div class="tl-step"><div class="tl-dot ${cls}">${s.icon}</div><div class="tl-label">${s.label}</div></div>`;
+  }).join('')+(cancelled?`<div class="tl-step"><div class="tl-dot failed">❌</div><div class="tl-label">Cancelled</div></div>`:'')+'</div>';
+}
+
+function renderApps(apps){
+  document.getElementById('appCount').textContent=apps.length;
+  const el=document.getElementById('appList');
+  if(!apps.length){
+    el.innerHTML=`<div class="empty-state"><div class="icon">📋</div><p>No program applications found.</p><p style="margin-top:8px"><a href="/" style="color:var(--cyan)">Apply for a program →</a></p></div>`;
+    return;
+  }
+  el.innerHTML=apps.map(a=>{
+    const date=a.date?new Date(a.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+    const bclass=a.status==='accepted'?'badge-accepted':a.status==='rejected'?'badge-rejected':'badge-pending';
+    return `<div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">${a.program||'Program Application'}</div>
+          <div class="card-date">Submitted ${date}</div>
+        </div>
+        <span class="badge ${bclass}">${a.status||'pending'}</span>
+      </div>
+      ${timelineApp(a.status||'pending')}
+      ${a.message?`<div class="card-detail" style="margin-top:14px"><strong>Your message:</strong> ${a.message}</div>`:''}
+      ${a.status==='accepted'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:10px;font-size:.84rem;color:#10b981">🎉 Congratulations! Your application has been accepted. The GIC team will contact you with next steps.</div>`:''}
+      ${a.status==='rejected'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;font-size:.84rem;color:#ef4444">We appreciate your interest. Unfortunately your application was not accepted at this time. You may apply again in the future.</div>`:''}
+      ${a.status==='pending'||a.status==='reviewing'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;font-size:.84rem;color:#f59e0b">⏳ Your application is under review. We'll notify you by email once a decision is made.</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderRegs(regs){
+  document.getElementById('regCount').textContent=regs.length;
+  const el=document.getElementById('regList');
+  if(!regs.length){
+    el.innerHTML=`<div class="empty-state"><div class="icon">📝</div><p>No event registrations found.</p><p style="margin-top:8px"><a href="/" style="color:var(--cyan)">Browse upcoming events →</a></p></div>`;
+    return;
+  }
+  el.innerHTML=regs.map(r=>{
+    const date=r.date?new Date(r.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+    const bclass=r.status==='confirmed'?'badge-confirmed':r.status==='cancelled'?'badge-cancelled':'badge-pending';
+    return `<div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">${r.event_title||'Event Registration'}</div>
+          <div class="card-date">Registered ${date}</div>
+        </div>
+        <span class="badge ${bclass}">${r.status||'pending'}</span>
+      </div>
+      ${timelineReg(r.status||'pending')}
+      ${r.status==='confirmed'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:10px;font-size:.84rem;color:#10b981">✅ Your spot is confirmed! See you at the event.</div>`:''}
+      ${r.status==='cancelled'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;font-size:.84rem;color:#ef4444">Your registration was cancelled. Contact GIC for more information.</div>`:''}
+      ${r.status==='pending'?`<div style="margin-top:14px;padding:12px 16px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;font-size:.84rem;color:#f59e0b">⏳ Awaiting confirmation from the GIC team.</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function logout(){
+  try { await fetch(`${API}/api/student/logout`,{method:'POST',headers:{Authorization:`Bearer ${TOKEN}`}}); } catch(_){}
+  localStorage.removeItem('studentToken');
+  TOKEN='';
+  document.getElementById('loginPage').style.display='flex';
+  document.getElementById('siteHeader').style.display='none';
+  document.getElementById('dashPage').style.display='none';
+}
+
+// Auto-login if token exists
+(async()=>{
+  if(!TOKEN) return;
+  const r=await fetch(`${API}/api/student/dashboard`,{headers:{Authorization:`Bearer ${TOKEN}`}}).catch(()=>null);
+  if(!r||r.status===401){ localStorage.removeItem('studentToken'); TOKEN=''; return; }
+  const d=await r.json();
+  document.getElementById('loginPage').style.display='none';
+  document.getElementById('siteHeader').style.display='flex';
+  document.getElementById('dashPage').style.display='block';
+  document.getElementById('userEmail').textContent=d.email;
+  document.getElementById('welcomeEmail').textContent=d.email;
+  renderApps(d.applications||[]);
+  renderRegs(d.registrations||[]);
+  document.getElementById('loadingSpinner').style.display='none';
+  document.getElementById('dashContent').style.display='block';
+})();
+</script>
+</body>
+</html>

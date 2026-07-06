@@ -1,0 +1,56 @@
+{
+  "programs": [
+    { "id": 1, "badge": "Academic Track", "badgeColor": "rgba(191,0,255,.15)", "badgeBorder": "rgba(191,0,255,.3)", "badgeText": "var(--rose)", "icon": "🎮", "title": "Game Development Track", "desc": "A specialized 4th-year track within the Software Engineering program. Covers game engine architecture, fundamentals of game design, mechanics, prototyping, production, and immersive game development." },
+    { "id": 2, "badge": "Pre-Collegiate", "badgeColor": "rgba(255,0,204,.12)", "badgeBorder": "rgba(255,0,204,.3)", "badgeText": "var(--magenta)", "icon": "📱", "title": "AUEP — Apps & AR Games", "desc": "Summer program for pre-collegiate students at Alfaisal University introducing app development and AR game creation in a hands-on environment." },
+    { "id": 3, "badge": "Industry Partnership", "badgeColor": "rgba(0,229,255,.1)", "badgeBorder": "rgba(0,229,255,.28)", "badgeText": "var(--pink)", "icon": "🏆", "title": "Gen.G Esports Practicum", "desc": "In partnership with Gen.G — combines academic learning with practical industry exposure. Students explore esports culture, business fundamentals, and gain an optional internship track in Korea." },
+    { "id": 4, "badge": "Extended Reality", "badgeColor": "rgba(68,0,255,.15)", "badgeBorder": "rgba(68,0,255,.35)", "badgeText": "#a78bfa", "icon": "🥽", "title": "XR Bootcamp", "desc": "A pioneering 40-hour bootcamp over two weeks in collaboration with the Saudi Esports Federation. Covers XR technology, hardware design, software development, and 3D modeling using Unity, Unreal Engine, and Blender." },
+    { "id": 5, "badge": "Robotics & Gaming", "badgeColor": "rgba(191,0,255,.12)", "badgeBorder": "rgba(191,0,255,.25)", "badgeText": "var(--rose)", "icon": "🤖", "title": "RoboGames & Esports Academy", "desc": "Held during the summer semester in collaboration with Gen.G — introduces middle and high school students to robotics and gaming, blending hands-on training with engaging competitive experiences." },
+    { "id": 6, "badge": "Applied Research", "badgeColor": "rgba(0,229,255,.08)", "badgeBorder": "rgba(0,229,255,.22)", "badgeText": "var(--pink)", "icon": "🔬", "title": "Research Program", "desc": "Annual research call drawing 120+ members. Projects focus on 4 categories: Sports, Games, Virtual Reality, and IoT — resulting in publications, patents, and capstone projects with real-world impact." }
+  ],
+  "news": [
+    { "id": 1, "date": "May 2025", "tag": "Publication", "title": "Ishara Tawasu Published & Patent Registered", "desc": "GIC's Arabic Sign Language virtual chatbot was published on Springer at HCI2025 in Sweden, with a patent application officially registered — a major milestone for GIC research." },
+    { "id": 2, "date": "Mar 2025", "tag": "Award", "title": "Boeing Award Winner", "desc": "GIC student team won the Boeing Innovation Award for their gesture-controlled drone project, recognized at Alfaisal's annual engineering showcase." },
+    { "id": 3, "date": "Jan 2025", "tag": "Event", "title": "Mini-Games Exhibit 2025", "desc": "Over 250 attendees joined our annual Mini-Games Exhibit, featuring 18 student-developed games across multiple genres and platforms." }
+  ],
+  "faq": [
+    { "id": 1, "q": "Who can join GIC programs?", "a": "GIC programs are open to all Alfaisal University students regardless of major. Several programs — including our Enrichment track and Game Jam — are also open to external participants and K-12 students. Check individual program pages or contact us for eligibility details." },
+    { "id": 2, "q": "Is there a cost to participate?", "a": "Most GIC programs are fully subsidized for enrolled Alfaisal students — there is no participation fee. Events like the Game Jam and Mini-Games Exhibit are free for all attendees. Some specialized bootcamps may have nominal material fees; these are communicated clearly during registration." },
+    { "id": 3, "q": "When do applications open each semester?", "a": "Applications open at the start of each academic semester — typically the first two weeks of September (Fall) and January (Spring). Follow our announcements section or email gamelab@alfaisal.edu to be notified when applications go live." },
+    { "id": 4, "q": "Do I need prior coding or game dev experience?", "a": "Not for most tracks. The Game Dev Bootcamp, XR Bootcamp, and Enrichment Programs are designed for beginners and build skills from the ground up. The Research Track and advanced Esports Academy cohorts may expect some baseline knowledge — requirements are listed per program." },
+    { "id": 5, "q": "Can companies recruit directly from GIC?", "a": "Yes. Our annual Mini-Games Exhibit and Game Jam are designed partly as talent showcases. Several partner studios attend specifically to scout students. For formal recruitment partnerships or internship pipelines, reach out to us at gamelab@alfaisal.edu." },
+    { "id": 6, "q": "How do I access the facilities outside of program hours?", "a": "Enrolled GIC members receive an access card for open-lab hours (Sunday–Thursday, 8am–10pm). The XR Lab and Motion Capture Studio require advance booking through our internal booking system. Equipment loans are available for active project teams." }
+  ],
+  "events": [
+    { "id": 1, "year": 2025, "title": "Mini-Games Exhibit 2025", "date": "May 14, 2025", "type": "Exhibit", "desc": "Annual student game showcase featuring 18 projects. 250+ attendees, 6 industry judges." },
+    { "id": 2, "year": 2025, "title": "Game Jam Spring 2025", "date": "Mar 22–24, 2025", "type": "Competition", "desc": "48-hour game jam with theme 'Roots & Routes'. 40 participants, 12 submitted games." },
+    { "id": 3, "year": 2024, "title": "Mini-Games Exhibit 2024", "date": "May 2024", "type": "Exhibit", "desc": "Third annual exhibit with 15 student games and 200+ visitors." },
+    { "id": 4, "year": 2024, "title": "XR Bootcamp Summer 2024", "date": "Jul 2024", "type": "Bootcamp", "desc": "Collaboration with Saudi Esports Federation. 40 hours over 2 weeks, 30 participants." }
+  ],
+  "team": [
+    { "id": 1, "name": "Eng. Hoda Elsayed", "role": "Lab Director", "category": "director", "initials": "HE", "photo": "fac/Screenshot 2026-07-02 002037.png" },
+    { "id": 2, "name": "Abdulrahman Hilal", "role": "Lab Assistant", "category": "assistant", "initials": "AH", "photo": "" },
+    { "id": 3, "name": "Mohamad Alderi", "role": "Lab Assistant", "category": "assistant", "initials": "MA", "photo": "" },
+    { "id": 4, "name": "Abdullah Ajam", "role": "Lab Assistant", "category": "assistant", "initials": "AA", "photo": "" },
+    { "id": 5, "name": "Yasmin Alfares", "role": "Lab Assistant", "category": "assistant", "initials": "YA", "photo": "" },
+    { "id": 6, "name": "Sara Alhams", "role": "Lab Assistant", "category": "assistant", "initials": "SH", "photo": "" },
+    { "id": 7, "name": "Najwa Dalati", "role": "Lab Assistant", "category": "assistant", "initials": "ND", "photo": "" },
+    { "id": 8, "name": "Dr. Mohamed Bahloul", "role": "Faculty Affiliate", "category": "faculty", "initials": "MB", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM.jpeg" },
+    { "id": 9, "name": "Dr. Abd-Elhamid M. Taha", "role": "Faculty Affiliate", "category": "faculty", "initials": "AT", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM (3).jpeg" },
+    { "id": 10, "name": "Dr. Areej Al-Wabil", "role": "Faculty Affiliate", "category": "faculty", "initials": "AA", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM (2).jpeg" },
+    { "id": 11, "name": "Dr. Muhammad Umair Khan", "role": "Faculty Affiliate", "category": "faculty", "initials": "MK", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM (5).jpeg" },
+    { "id": 12, "name": "Dr. Nidal Nasser", "role": "Professor of Software Engineering", "category": "faculty", "initials": "NN", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM (4).jpeg" },
+    { "id": 13, "name": "Prof. Anis Koubaa", "role": "Faculty Affiliate", "category": "faculty", "initials": "AK", "photo": "fac/WhatsApp Image 2026-07-02 at 12.17.25 AM (1).jpeg" },
+    { "id": 14, "name": "Ahmad Younis", "role": "GDC Lead", "category": "student", "initials": "AY", "photo": "" },
+    { "id": 15, "name": "Mohamad Alderi", "role": "GDC Lead", "category": "student", "initials": "MA", "photo": "" },
+    { "id": 16, "name": "Mohammad Alghamdi", "role": "GDC Lead", "category": "student", "initials": "MG", "photo": "" },
+    { "id": 17, "name": "Joodi Tarabulsi", "role": "GDC Lead", "category": "student", "initials": "JT", "photo": "" },
+    { "id": 18, "name": "Aljohara Almudaiheem", "role": "GDC Lead", "category": "student", "initials": "AL", "photo": "" }
+  ],
+  "hero": {
+    "title": "Where Code Meets Play",
+    "subtitle": "Forging the next generation of game developers, XR creators, and interactive media pioneers.",
+    "stat1": { "value": "6+", "label": "Programs" },
+    "stat2": { "value": "500+", "label": "Students Trained" },
+    "stat3": { "value": "10+", "label": "Events Per Year" }
+  }
+}

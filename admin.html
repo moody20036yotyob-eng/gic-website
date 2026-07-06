@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GIC Admin Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d0d14;color:#e8e0ff;min-height:100vh;display:flex}
+#loginScreen{position:fixed;inset:0;background:#0d0d14;display:flex;align-items:center;justify-content:center;z-index:999;flex-direction:column;gap:24px}
+.login-card{background:rgba(255,255,255,.04);border:1px solid rgba(191,0,255,.25);border-radius:20px;padding:48px 40px;width:360px;text-align:center}
+.login-card h1{font-size:1.6rem;font-weight:800;margin-bottom:6px;background:linear-gradient(135deg,#BF00FF,#FF00CC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.login-card p{color:rgba(232,224,255,.45);font-size:.88rem;margin-bottom:28px}
+.login-card input{width:100%;padding:13px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(191,0,255,.25);border-radius:12px;color:#e8e0ff;font-size:1rem;outline:none;margin-bottom:14px;transition:.2s}
+.login-card input:focus{border-color:#BF00FF}
+.login-card button{width:100%;padding:13px;background:linear-gradient(135deg,#BF00FF,#FF00CC);border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer}
+.login-err{color:#ff4466;font-size:.82rem;margin-top:8px;display:none}
+#sidebar{width:240px;min-height:100vh;background:rgba(255,255,255,.03);border-right:1px solid rgba(191,0,255,.12);padding:28px 0;display:flex;flex-direction:column;flex-shrink:0}
+.sb-logo{padding:0 24px 24px;border-bottom:1px solid rgba(191,0,255,.1);margin-bottom:16px}
+.sb-logo span{font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#BF00FF,#FF00CC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sb-logo small{display:block;color:rgba(232,224,255,.3);font-size:.72rem;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 24px;cursor:pointer;color:rgba(232,224,255,.5);font-size:.88rem;font-weight:500;transition:.15s;border-left:3px solid transparent}
+.nav-item:hover{color:#e8e0ff;background:rgba(191,0,255,.07)}
+.nav-item.active{color:#BF00FF;border-left-color:#BF00FF;background:rgba(191,0,255,.1)}
+.nav-sep{height:1px;background:rgba(191,0,255,.1);margin:10px 0}
+.sb-footer{margin-top:auto;padding:16px 24px;border-top:1px solid rgba(191,0,255,.1)}
+.sb-footer a{color:rgba(232,224,255,.35);font-size:.8rem;text-decoration:none;display:block;margin-top:8px}
+.sb-footer a:hover{color:#BF00FF}
+#main{flex:1;overflow-y:auto}
+.topbar{padding:20px 32px;border-bottom:1px solid rgba(191,0,255,.1);display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)}
+.topbar h2{font-size:1.15rem;font-weight:700}
+.btn{padding:9px 18px;border-radius:10px;border:none;font-size:.85rem;font-weight:600;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:linear-gradient(135deg,#BF00FF,#FF00CC);color:#fff}
+.btn-primary:hover{opacity:.85}
+.btn-outline{background:transparent;border:1px solid rgba(191,0,255,.35);color:#BF00FF}
+.btn-outline:hover{background:rgba(191,0,255,.1)}
+.btn-danger{background:rgba(255,60,80,.12);border:1px solid rgba(255,60,80,.25);color:#ff4466}
+.btn-danger:hover{background:rgba(255,60,80,.22)}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.page{display:none;padding:32px}
+.page.active{display:block}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-box{background:rgba(255,255,255,.04);border:1px solid rgba(191,0,255,.15);border-radius:14px;padding:20px 22px}
+.stat-num{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#BF00FF,#FF00CC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{color:rgba(232,224,255,.45);font-size:.78rem;margin-top:4px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(191,0,255,.15);border-radius:14px;padding:20px;transition:.2s}
+.card:hover{border-color:rgba(191,0,255,.35);background:rgba(191,0,255,.05)}
+.card-title{font-weight:700;font-size:.95rem;color:#e8e0ff;line-height:1.3}
+.card-desc{color:rgba(232,224,255,.5);font-size:.82rem;line-height:1.5;margin:8px 0 14px}
+.card-actions{display:flex;gap:8px}
+.tbl-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(191,0,255,.12);border-radius:14px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{padding:12px 16px;text-align:left;font-size:.75rem;font-weight:600;color:rgba(232,224,255,.4);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid rgba(191,0,255,.12);background:rgba(255,255,255,.02)}
+td{padding:13px 16px;font-size:.85rem;border-bottom:1px solid rgba(191,0,255,.07);color:rgba(232,224,255,.8);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(191,0,255,.04)}
+.td-actions{display:flex;gap:6px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:.2s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#13101e;border:1px solid rgba(191,0,255,.25);border-radius:20px;padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:translateY(20px);transition:.25s}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:1.15rem;font-weight:800;margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:rgba(232,224,255,.5);margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase}
+.field input,.field textarea{width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.9rem;outline:none;transition:.2s;font-family:inherit;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:#BF00FF}
+.field textarea{min-height:90px}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+.toast{position:fixed;bottom:28px;right:28px;background:rgba(20,16,36,.95);border:1px solid rgba(191,0,255,.3);border-radius:12px;padding:14px 20px;font-size:.88rem;font-weight:500;z-index:999;transform:translateY(80px);opacity:0;transition:.3s;color:#e8e0ff}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:rgba(0,200,100,.4);color:#00e676}
+.toast.error{border-color:rgba(255,60,80,.4);color:#ff4466}
+.tag{display:inline-block;padding:3px 9px;border-radius:6px;font-size:.72rem;font-weight:600}
+.tag-purple{background:rgba(191,0,255,.15);color:#BF00FF}
+.tag-cyan{background:rgba(0,229,255,.1);color:#00e5ff}
+.tag-pink{background:rgba(255,0,204,.1);color:#FF00CC}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.section-header h3{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(232,224,255,.5)}
+/* Analytics */
+.an-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.an-kpi{background:rgba(255,255,255,.04);border:1px solid rgba(191,0,255,.15);border-radius:14px;padding:22px;position:relative;overflow:hidden}
+.an-kpi::before{content:'';position:absolute;inset:0;background:var(--g,linear-gradient(135deg,rgba(191,0,255,.08),transparent));pointer-events:none}
+.an-kpi-num{font-size:2.2rem;font-weight:800;background:var(--g2,linear-gradient(135deg,#BF00FF,#FF00CC));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.an-kpi-lbl{color:rgba(232,224,255,.45);font-size:.78rem;margin-top:6px}
+.an-kpi-sub{font-size:.72rem;margin-top:4px;font-weight:600}
+.an-panel{background:rgba(255,255,255,.03);border:1px solid rgba(191,0,255,.12);border-radius:14px;padding:22px}
+.an-panel h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(232,224,255,.4);margin-bottom:18px}
+.an-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.bar-track{background:rgba(255,255,255,.05);border-radius:4px;height:10px;margin-top:5px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.bar-label{display:flex;justify-content:space-between;font-size:.78rem;color:rgba(232,224,255,.6)}
+.bar-item{margin-bottom:12px}
+.status-pills{display:flex;gap:10px;flex-wrap:wrap}
+.s-pill{padding:10px 16px;border-radius:10px;text-align:center;flex:1;min-width:80px}
+.s-pill-num{font-size:1.4rem;font-weight:800;line-height:1}
+.s-pill-lbl{font-size:.7rem;margin-top:3px;opacity:.7}
+.spark-bar{display:flex;align-items:flex-end;gap:4px;height:80px}
+.spark-bar-item{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(to top,#BF00FF,#FF00CC);min-height:4px;transition:height .5s}
+.spark-label{display:flex;gap:4px;margin-top:6px}
+.spark-label span{flex:1;font-size:.62rem;color:rgba(232,224,255,.3);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <h1>GIC Admin</h1>
+    <p>Game Innovation Center &middot; Dashboard</p>
+    <input type="password" id="pwInput" placeholder="Enter admin password"/>
+    <button onclick="login()">Sign In &rarr;</button>
+    <div class="login-err" id="loginErr">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<div id="sidebar">
+  <div class="sb-logo">
+    <span>GIC Admin</span>
+    <small>Game Innovation Center</small>
+  </div>
+  <div class="nav-item active" onclick="nav('dashboard')" data-page="dashboard"><span>🏠</span> Dashboard</div>
+  <div class="nav-item" onclick="nav('hero')" data-page="hero"><span>✨</span> Hero</div>
+  <div class="nav-sep"></div>
+  <div class="nav-item" onclick="nav('programs')" data-page="programs"><span>🎮</span> Programs</div>
+  <div class="nav-item" onclick="nav('news')" data-page="news"><span>📰</span> News</div>
+  <div class="nav-item" onclick="nav('events')" data-page="events"><span>🎉</span> Events</div>
+  <div class="nav-item" onclick="nav('faq')" data-page="faq"><span>❓</span> FAQ</div>
+  <div class="nav-item" onclick="nav('team')" data-page="team"><span>👥</span> Team</div>
+  <div class="nav-item" onclick="nav('applications')" data-page="applications"><span>📋</span> Applications <span id="apply-badge" style="display:none;background:#00e5ff;color:#000;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></div>
+  <div class="nav-item" onclick="nav('registrations')" data-page="registrations"><span>🎟️</span> Registrations <span id="reg-badge" style="display:none;background:#4ade80;color:#000;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></div>
+  <div class="nav-item" onclick="nav('analytics')" data-page="analytics"><span>📊</span> Analytics</div>
+  <div class="nav-item" onclick="nav('messages')" data-page="messages"><span>✉️</span> Messages <span id="unread-badge" style="display:none;background:#BF00FF;color:#fff;border-radius:10px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></div>
+  <div class="nav-sep"></div>
+  <div class="sb-footer">
+    <span style="color:rgba(232,224,255,.3);font-size:.75rem">Logged in as Admin</span>
+    <a href="index.html" target="_blank">&#8599; View Live Site</a>
+    <a href="#" onclick="logout()">Sign Out</a>
+  </div>
+</div>
+
+<div id="main">
+  <div class="topbar">
+    <h2 id="topbarTitle">Dashboard</h2>
+    <div id="topbarActions"></div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="page active" id="page-dashboard">
+    <div class="stats-row" id="dashStats"></div>
+    <div class="section-header"><h3>Sections</h3></div>
+    <div class="cards-grid">
+      <div class="card" onclick="nav('programs')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">🎮</div><div class="card-title">Programs</div><div class="card-desc">Manage programs &amp; workshops shown on the site.</div></div>
+      <div class="card" onclick="nav('news')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">📰</div><div class="card-title">News</div><div class="card-desc">Add or remove news items and announcements.</div></div>
+      <div class="card" onclick="nav('events')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">🎉</div><div class="card-title">Events</div><div class="card-desc">Manage events by year with dates and descriptions.</div></div>
+      <div class="card" onclick="nav('faq')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">❓</div><div class="card-title">FAQ</div><div class="card-desc">Update frequently asked questions and answers.</div></div>
+      <div class="card" onclick="nav('team')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">👥</div><div class="card-title">Team</div><div class="card-desc">Add or remove team members and their roles.</div></div>
+      <div class="card" onclick="nav('hero')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">✨</div><div class="card-title">Hero Section</div><div class="card-desc">Edit headline, subtitle, and stats.</div></div>
+      <div class="card" onclick="nav('applications')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">📋</div><div class="card-title">Applications</div><div class="card-desc">Review program applications from students.</div></div>
+      <div class="card" onclick="nav('registrations')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">🎟️</div><div class="card-title">Event Registrations</div><div class="card-desc">Manage event bookings and attendee lists.</div></div>
+      <div class="card" onclick="nav('messages')" style="cursor:pointer"><div style="font-size:2rem;margin-bottom:10px">✉️</div><div class="card-title">Messages</div><div class="card-desc">View and reply to contact form submissions.</div></div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="page" id="page-hero">
+    <div style="max-width:580px">
+      <div class="field"><label>Main Title</label><input id="hero-title"/></div>
+      <div class="field"><label>Subtitle</label><textarea id="hero-subtitle" rows="2"></textarea></div>
+      <div class="hero-grid">
+        <div class="field"><label>Stat 1 Value</label><input id="hero-s1v"/></div>
+        <div class="field"><label>Stat 1 Label</label><input id="hero-s1l"/></div>
+        <div class="field"><label>Stat 2 Value</label><input id="hero-s2v"/></div>
+        <div class="field"><label>Stat 2 Label</label><input id="hero-s2l"/></div>
+        <div class="field"><label>Stat 3 Value</label><input id="hero-s3v"/></div>
+        <div class="field"><label>Stat 3 Label</label><input id="hero-s3l"/></div>
+      </div>
+      <button class="btn btn-primary" onclick="saveHero()">&#128190; Save Hero</button>
+    </div>
+  </div>
+
+  <!-- Programs -->
+  <div class="page" id="page-programs">
+    <div class="cards-grid" id="programs-list"></div>
+  </div>
+
+  <!-- News -->
+  <div class="page" id="page-news">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Date</th><th>Tag</th><th>Title</th><th>Description</th><th></th></tr></thead>
+      <tbody id="news-list"></tbody>
+    </table></div>
+  </div>
+
+  <!-- Events -->
+  <div class="page" id="page-events">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Year</th><th>Date</th><th>Type</th><th>Title</th><th></th></tr></thead>
+      <tbody id="events-list"></tbody>
+    </table></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="page" id="page-faq">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>Question</th><th>Answer</th><th></th></tr></thead>
+      <tbody id="faq-list"></tbody>
+    </table></div>
+  </div>
+
+  <!-- Team -->
+  <div class="page" id="page-team">
+    <div class="cards-grid" id="team-list"></div>
+  </div>
+
+  <!-- Analytics -->
+  <div class="page" id="page-analytics">
+    <div class="an-grid" id="an-kpis"></div>
+    <div class="an-row">
+      <div class="an-panel"><h4>Applications by Program</h4><div id="an-app-prog"></div></div>
+      <div class="an-panel"><h4>Applications by Status</h4><div id="an-app-status" class="status-pills" style="margin-bottom:20px"></div><h4 style="margin-top:16px">Registrations by Status</h4><div id="an-reg-status" class="status-pills"></div></div>
+    </div>
+    <div class="an-row">
+      <div class="an-panel"><h4>Registrations by Event</h4><div id="an-reg-event"></div></div>
+      <div class="an-panel"><h4>Activity — Last 14 Days</h4><div class="spark-bar" id="an-spark"></div><div class="spark-label" id="an-spark-lbl"></div><div style="display:flex;gap:16px;margin-top:14px;font-size:.75rem;color:rgba(232,224,255,.4)"><span style="color:#BF00FF">■</span> Applications &nbsp;<span style="color:#00e5ff">■</span> Registrations &nbsp;<span style="color:#4ade80">■</span> Messages</div></div>
+    </div>
+    <div class="an-panel" style="margin-top:0"><h4>Recent Activity Feed</h4><div id="an-feed"></div></div>
+  </div>
+
+  <!-- Registrations -->
+  <div class="page" id="page-registrations">
+    <div id="registrations-list"></div>
+  </div>
+
+  <!-- Applications -->
+  <div class="page" id="page-applications">
+    <div id="applications-list"></div>
+  </div>
+
+  <!-- Messages -->
+  <div class="page" id="page-messages">
+    <div id="messages-list"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3 id="modal-title">Add Item</h3>
+    <div id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="modalSave()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '';
+let TOKEN = '';
+let DATA = {};
+let MESSAGES = [];
+let APPLICATIONS = [];
+let REGISTRATIONS = [];
+let editingId = null;
+let editingType = null;
+
+// Auth
+async function login() {
+  const pw = document.getElementById('pwInput').value;
+  const errEl = document.getElementById('loginErr');
+  errEl.style.display='none';
+  try {
+    const r = await fetch(API+'/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})});
+    const d = await r.json();
+    if(r.ok){
+      TOKEN=d.token;
+      document.getElementById('loginScreen').style.display='none';
+      loadAll();
+    } else {
+      errEl.style.display='block';
+      errEl.textContent = d.error || (d.attemptsLeft !== undefined ? `Incorrect password. ${d.attemptsLeft} attempt(s) left.` : 'Incorrect password. Try again.');
+    }
+  } catch(e){toast('Cannot connect to server. Is server.js running?','error');}
+}
+async function logout(){
+  try { await fetch(API+'/api/auth/logout',{method:'POST',headers:ah()}); } catch(_){}
+  TOKEN=''; location.reload();
+}
+function ah(){return{'Content-Type':'application/json','Authorization':'Bearer '+TOKEN};}
+
+// Load
+async function loadAll(){
+  const r=await fetch(API+'/api/content');
+  DATA=await r.json();
+  await Promise.all([loadMessages(), loadApplications(), loadRegistrations()]);
+  renderAll();
+}
+
+async function loadMessages(){
+  try {
+    const r=await fetch(API+'/api/contacts',{headers:ah()});
+    if(r.ok){ MESSAGES=await r.json(); updateUnreadBadge(); }
+  } catch(_){}
+}
+
+async function loadApplications(){
+  try {
+    const r=await fetch(API+'/api/applications',{headers:ah()});
+    if(r.ok){ APPLICATIONS=await r.json(); updateApplyBadge(); }
+  } catch(_){}
+}
+
+function updateApplyBadge(){
+  const pending=APPLICATIONS.filter(a=>!a.read).length;
+  const badge=document.getElementById('apply-badge');
+  if(pending>0){badge.style.display='inline';badge.textContent=pending;}
+  else{badge.style.display='none';}
+}
+
+async function loadRegistrations(){
+  try {
+    const r=await fetch(API+'/api/registrations',{headers:ah()});
+    if(r.ok){ REGISTRATIONS=await r.json(); updateRegBadge(); }
+  } catch(_){}
+}
+
+function updateRegBadge(){
+  const pending=REGISTRATIONS.filter(r=>!r.read).length;
+  const badge=document.getElementById('reg-badge');
+  if(pending>0){badge.style.display='inline';badge.textContent=pending;}
+  else{badge.style.display='none';}
+}
+
+function updateUnreadBadge(){
+  const unread=MESSAGES.filter(m=>!m.read).length;
+  const badge=document.getElementById('unread-badge');
+  if(unread>0){badge.style.display='inline';badge.textContent=unread;}
+  else{badge.style.display='none';}
+}
+
+function renderAll(){renderDashboard();renderHero();renderPrograms();renderNews();renderEvents();renderFaq();renderTeam();renderMessages();renderApplications();renderRegistrations();renderAnalytics();}
+
+// Nav
+const PAGE_TITLES={dashboard:'Dashboard',hero:'Hero Section',programs:'Programs & Workshops',news:'News & Announcements',events:'Events',faq:'FAQ',team:'Team',applications:'Applications',registrations:'Event Registrations',analytics:'Analytics',messages:'Messages'};
+const ADD_SECTIONS=['programs','news','events','faq','team'];
+
+function nav(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelector('[data-page="'+page+'"]').classList.add('active');
+  document.getElementById('topbarTitle').textContent=PAGE_TITLES[page]||page;
+  const act=document.getElementById('topbarActions');
+  act.innerHTML='';
+  if(ADD_SECTIONS.includes(page)){
+    act.innerHTML='<button class="btn btn-primary" onclick="openModal(\''+page.slice(0,-1)+(page==="news"?"":"")+'\')" >+ Add</button>';
+    // fix: map section to type
+    const typeMap={programs:'program',news:'news-item',events:'event',faq:'faq-item',team:'team-member'};
+    act.innerHTML='<button class="btn btn-primary" onclick="openModal(\''+typeMap[page]+'\')">+ Add</button>';
+  }
+}
+
+// Dashboard
+function renderDashboard(){
+  const pendingApps=APPLICATIONS.filter(a=>a.status==='pending').length;
+  const pendingRegs=REGISTRATIONS.filter(r=>r.status==='pending').length;
+  document.getElementById('dashStats').innerHTML=[
+    {icon:'📋',num:APPLICATIONS.length,lbl:'Applications',sub:pendingApps?`${pendingApps} pending`:''},
+    {icon:'🎟️',num:REGISTRATIONS.length,lbl:'Event Registrations',sub:pendingRegs?`${pendingRegs} pending`:''},
+    {icon:'✉️',num:MESSAGES.filter(m=>!m.read).length,lbl:'Unread Messages'},
+    {icon:'🎮',num:(DATA.programs||[]).length,lbl:'Programs'},
+  ].map(s=>`<div class="stat-box"><div style="font-size:1.5rem;margin-bottom:6px">${s.icon}</div><div class="stat-num">${s.num}</div><div class="stat-lbl">${s.lbl}</div>${s.sub?`<div style="font-size:.72rem;color:#00e5ff;margin-top:2px">${s.sub}</div>`:''}</div>`).join('');
+}
+
+// Hero
+function renderHero(){
+  const h=DATA.hero||{};
+  document.getElementById('hero-title').value=h.title||'';
+  document.getElementById('hero-subtitle').value=h.subtitle||'';
+  document.getElementById('hero-s1v').value=h.stat1?.value||'';
+  document.getElementById('hero-s1l').value=h.stat1?.label||'';
+  document.getElementById('hero-s2v').value=h.stat2?.value||'';
+  document.getElementById('hero-s2l').value=h.stat2?.label||'';
+  document.getElementById('hero-s3v').value=h.stat3?.value||'';
+  document.getElementById('hero-s3l').value=h.stat3?.label||'';
+}
+async function saveHero(){
+  const body={title:document.getElementById('hero-title').value,subtitle:document.getElementById('hero-subtitle').value,stat1:{value:document.getElementById('hero-s1v').value,label:document.getElementById('hero-s1l').value},stat2:{value:document.getElementById('hero-s2v').value,label:document.getElementById('hero-s2l').value},stat3:{value:document.getElementById('hero-s3v').value,label:document.getElementById('hero-s3l').value}};
+  const r=await fetch(API+'/api/hero',{method:'PUT',headers:ah(),body:JSON.stringify(body)});
+  if(r.ok){DATA.hero={...DATA.hero,...body};toast('Hero saved!','success');}else toast('Error saving','error');
+}
+
+// Programs
+function renderPrograms(){
+  const el=document.getElementById('programs-list');
+  if(!DATA.programs?.length){el.innerHTML=empty('No programs yet');return;}
+  el.innerHTML=DATA.programs.map(p=>`
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.6rem">${p.icon||'🎮'}</span><div class="card-title">${p.title}</div></div>
+        <span class="tag tag-purple" style="flex-shrink:0">${p.badge}</span>
+      </div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-actions">
+        <button class="btn btn-outline btn-sm" onclick='editItem("program",${p.id})'>Edit</button>
+        <button class="btn btn-danger btn-sm" onclick='deleteItem("programs",${p.id})'>Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+// News
+function renderNews(){
+  const el=document.getElementById('news-list');
+  if(!DATA.news?.length){el.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(232,224,255,.3)">No news yet</td></tr>`;return;}
+  el.innerHTML=DATA.news.map(n=>`
+    <tr>
+      <td style="color:rgba(232,224,255,.45);white-space:nowrap">${n.date}</td>
+      <td><span class="tag tag-purple">${n.tag}</span></td>
+      <td style="font-weight:600">${n.title}</td>
+      <td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:rgba(232,224,255,.45)">${n.desc}</td>
+      <td><div class="td-actions"><button class="btn btn-outline btn-sm" onclick='editItem("news-item",${n.id})'>Edit</button><button class="btn btn-danger btn-sm" onclick='deleteItem("news",${n.id})'>Delete</button></div></td>
+    </tr>`).join('');
+}
+
+// Events
+function renderEvents(){
+  const el=document.getElementById('events-list');
+  if(!DATA.events?.length){el.innerHTML=`<tr><td colspan="5" style="text-align:center;padding:40px;color:rgba(232,224,255,.3)">No events yet</td></tr>`;return;}
+  el.innerHTML=DATA.events.map(e=>`
+    <tr>
+      <td><span class="tag tag-cyan">${e.year}</span></td>
+      <td style="color:rgba(232,224,255,.45);white-space:nowrap">${e.date}</td>
+      <td><span class="tag tag-pink">${e.type}</span></td>
+      <td style="font-weight:600">${e.title}</td>
+      <td><div class="td-actions"><button class="btn btn-outline btn-sm" onclick='editItem("event",${e.id})'>Edit</button><button class="btn btn-danger btn-sm" onclick='deleteItem("events",${e.id})'>Delete</button></div></td>
+    </tr>`).join('');
+}
+
+// FAQ
+function renderFaq(){
+  const el=document.getElementById('faq-list');
+  if(!DATA.faq?.length){el.innerHTML=`<tr><td colspan="4" style="text-align:center;padding:40px;color:rgba(232,224,255,.3)">No FAQ yet</td></tr>`;return;}
+  el.innerHTML=DATA.faq.map((f,i)=>`
+    <tr>
+      <td style="color:rgba(232,224,255,.35);font-weight:700">${i+1}</td>
+      <td style="font-weight:600;max-width:200px">${f.q}</td>
+      <td style="max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:rgba(232,224,255,.45)">${f.a}</td>
+      <td><div class="td-actions"><button class="btn btn-outline btn-sm" onclick='editItem("faq-item",${f.id})'>Edit</button><button class="btn btn-danger btn-sm" onclick='deleteItem("faq",${f.id})'>Delete</button></div></td>
+    </tr>`).join('');
+}
+
+// Team
+function renderTeam(){
+  const el=document.getElementById('team-list');
+  if(!DATA.team?.length){el.innerHTML=empty('No team members yet');return;}
+  const groups=[
+    {key:'director',label:'Lab Director'},
+    {key:'assistant',label:'Lab Assistants'},
+    {key:'faculty',label:'Faculty Affiliates'},
+    {key:'student',label:'Student Affiliates — GDC'},
+  ];
+  const avatarColors={director:'135deg,#BF00FF,#0044FF',assistant:'135deg,#FF00CC,#BF00FF',faculty:'135deg,#00E5FF,#0044FF',student:'135deg,#BF00FF,#FF00CC'};
+  let html='';
+  for(const g of groups){
+    const members=DATA.team.filter(t=>t.category===g.key);
+    if(!members.length) continue;
+    html+=`<div style="grid-column:1/-1;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,224,255,.4);margin-top:8px;padding-bottom:6px;border-bottom:1px solid rgba(191,0,255,.15)">${g.label}</div>`;
+    html+=members.map(t=>`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        ${t.photo?`<div style="width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0"><img src="${t.photo}" style="width:100%;height:100%;object-fit:cover;object-position:center top"/></div>`:`<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(${avatarColors[t.category]||'135deg,#BF00FF,#FF00CC'});display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0">${t.initials}</div>`}
+        <div><div class="card-title">${t.name}</div><div style="font-size:.78rem;color:rgba(232,224,255,.4);margin-top:2px">${t.role}</div></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-outline btn-sm" onclick='editItem("team-member",${t.id})'>Edit</button>
+        <button class="btn btn-danger btn-sm" onclick='deleteItem("team",${t.id})'>Delete</button>
+      </div>
+    </div>`).join('');
+  }
+  el.innerHTML=html;
+}
+
+// Modal forms
+const FORMS={
+  program:{title:'Program',section:'programs',fields:[{k:'title',l:'Title',t:'text'},{k:'badge',l:'Badge Label',t:'text'},{k:'icon',l:'Icon (emoji)',t:'text'},{k:'desc',l:'Description',t:'textarea'}]},
+  'news-item':{title:'News Item',section:'news',fields:[{k:'title',l:'Title',t:'text'},{k:'date',l:'Date (e.g. Jul 2026)',t:'text'},{k:'tag',l:'Tag (Event / Award / Publication)',t:'text'},{k:'desc',l:'Description',t:'textarea'}]},
+  event:{title:'Event',section:'events',fields:[{k:'title',l:'Title',t:'text'},{k:'year',l:'Year',t:'text'},{k:'date',l:'Date (e.g. May 14, 2026)',t:'text'},{k:'type',l:'Type (Exhibit / Competition / Bootcamp)',t:'text'},{k:'desc',l:'Description',t:'textarea'}]},
+  'faq-item':{title:'FAQ',section:'faq',fields:[{k:'q',l:'Question',t:'text'},{k:'a',l:'Answer',t:'textarea'}]},
+  'team-member':{title:'Team Member',section:'team',fields:[{k:'name',l:'Full Name',t:'text'},{k:'role',l:'Role',t:'text'},{k:'initials',l:'Initials',t:'initials'},{k:'category',l:'Category',t:'select',options:[{v:'director',l:'Lab Director'},{v:'assistant',l:'Lab Assistant'},{v:'faculty',l:'Faculty Affiliate'},{v:'student',l:'Student Affiliate (GDC)'}]}]},
+};
+
+function openModal(type,data){
+  const f=FORMS[type]; if(!f)return;
+  editingType=type; editingId=data?.id||null;
+  document.getElementById('modal-title').textContent=(editingId?'Edit ':'Add ')+f.title;
+  document.getElementById('modal-body').innerHTML=f.fields.map(field=>`
+    <div class="field">
+      <label>${field.l}</label>
+      ${field.t==='textarea'
+        ?`<textarea id="mf-${field.k}" rows="3">${data?.[field.k]||''}</textarea>`
+        :field.t==='select'
+        ?`<select id="mf-${field.k}" style="width:100%;padding:10px 14px;background:#1a1025;border:1px solid rgba(191,0,255,.3);border-radius:10px;color:#EDE0FF;font-size:.95rem;outline:none">${field.options.map(o=>`<option value="${o.v}"${(data?.[field.k]||'')=== o.v?' selected':''}>${o.l}</option>`).join('')}</select>`
+        :field.t==='initials'
+        ?`<input id="mf-${field.k}" type="text" maxlength="3" value="${(data?.[field.k]||'').toString().replace(/"/g,'&quot;')}" placeholder="Auto-filled from name" style="text-transform:uppercase"/>`
+        :`<input id="mf-${field.k}" type="text" value="${(data?.[field.k]||'').toString().replace(/"/g,'&quot;')}"/>`}
+    </div>`).join('');
+  document.getElementById('modal').classList.add('open');
+  setTimeout(()=>document.querySelector('#modal-body input, #modal-body textarea')?.focus(),100);
+  // Auto-fill initials from name
+  const nameEl=document.getElementById('mf-name');
+  const initialsEl=document.getElementById('mf-initials');
+  if(nameEl&&initialsEl){
+    nameEl.addEventListener('input',()=>{
+      if(initialsEl.dataset.manual) return;
+      const parts=nameEl.value.trim().split(/\s+/).filter(Boolean);
+      initialsEl.value=parts.slice(0,2).map(p=>p[0]?.toUpperCase()||'').join('');
+    });
+    initialsEl.addEventListener('input',()=>{ initialsEl.dataset.manual='1'; });
+  }
+}
+
+function closeModal(){document.getElementById('modal').classList.remove('open');editingId=null;editingType=null;}
+
+async function modalSave(){
+  const f=FORMS[editingType];
+  const body={};
+  f.fields.forEach(field=>{
+    const v=document.getElementById('mf-'+field.k)?.value?.trim()||'';
+    body[field.k]=(editingType==='event'&&field.k==='year')?parseInt(v)||new Date().getFullYear():v;
+  });
+  const section=f.section;
+  const url=editingId?`${API}/api/${section}/${editingId}`:`${API}/api/${section}`;
+  const method=editingId?'PUT':'POST';
+  const r=await fetch(url,{method,headers:ah(),body:JSON.stringify(body)});
+  if(r.ok){
+    const item=await r.json();
+    if(editingId){const i=DATA[section].findIndex(x=>x.id===editingId);if(i!==-1)DATA[section][i]=item;}
+    else DATA[section].push(item);
+    closeModal();
+    rerender(section);
+    renderDashboard();
+    toast((editingId?'Updated':'Added')+' successfully!','success');
+  } else toast('Error saving item','error');
+}
+
+function editItem(type,id){
+  const section=FORMS[type]?.section;
+  const item=DATA[section]?.find(x=>x.id===id);
+  if(item) openModal(type,item);
+}
+
+async function deleteItem(section,id){
+  if(!confirm('Delete this item? This cannot be undone.'))return;
+  const r=await fetch(`${API}/api/${section}/${id}`,{method:'DELETE',headers:ah()});
+  if(r.ok){DATA[section]=DATA[section].filter(x=>x.id!==id);rerender(section);renderDashboard();toast('Deleted','success');}
+  else toast('Error deleting','error');
+}
+
+function rerender(section){({programs:renderPrograms,news:renderNews,events:renderEvents,faq:renderFaq,team:renderTeam})[section]?.();}
+
+// Messages
+function renderMessages(){
+  const el=document.getElementById('messages-list');
+  if(!el) return;
+  if(!MESSAGES.length){el.innerHTML=`<div style="text-align:center;padding:60px;color:rgba(232,224,255,.3);font-size:1rem">No messages yet</div>`;return;}
+  el.innerHTML=MESSAGES.map(m=>`
+    <div id="msg-${m.id}" style="background:rgba(6,0,15,${m.read?'.5':'.85'});border:1px solid rgba(191,0,255,${m.read?'.15':'.4'});border-radius:14px;padding:24px 28px;margin-bottom:14px;transition:all .3s">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            ${!m.read?'<span style="width:8px;height:8px;border-radius:50%;background:#BF00FF;flex-shrink:0;box-shadow:0 0 8px #BF00FF"></span>':''}
+            <span style="font-weight:700;color:#EDE0FF;font-size:1rem">${esc(m.name)}</span>
+            <a href="mailto:${esc(m.email)}" style="color:#00E5FF;font-size:.82rem;text-decoration:none">${esc(m.email)}</a>
+            <span style="color:rgba(232,224,255,.3);font-size:.75rem;margin-left:auto">${new Date(m.date).toLocaleString()}</span>
+          </div>
+          <div style="color:rgba(237,224,255,.75);line-height:1.7;font-size:.93rem;white-space:pre-wrap">${esc(m.message)}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          ${!m.read?`<button class="btn btn-outline btn-sm" onclick="markRead(${m.id})">Mark Read</button>`:''}
+          <a href="mailto:${esc(m.email)}?subject=Re: GIC Inquiry" class="btn btn-outline btn-sm" style="text-decoration:none">Reply</a>
+          <button class="btn btn-danger btn-sm" onclick="deleteMsg(${m.id})">Delete</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+async function markRead(id){
+  const r=await fetch(`${API}/api/contacts/${id}/read`,{method:'PATCH',headers:ah()});
+  if(r.ok){
+    const m=MESSAGES.find(x=>x.id===id);
+    if(m) m.read=true;
+    renderMessages();
+    updateUnreadBadge();
+  }
+}
+
+async function deleteMsg(id){
+  if(!confirm('Delete this message?')) return;
+  const r=await fetch(`${API}/api/contacts/${id}`,{method:'DELETE',headers:ah()});
+  if(r.ok){ MESSAGES=MESSAGES.filter(x=>x.id!==id); renderMessages(); updateUnreadBadge(); toast('Message deleted','success'); }
+}
+// Registrations
+function renderRegistrations(){
+  const el=document.getElementById('registrations-list');
+  if(!el) return;
+  if(!REGISTRATIONS.length){
+    el.innerHTML=`<div style="text-align:center;padding:60px;color:rgba(232,224,255,.3)"><div style="font-size:3rem;margin-bottom:12px">🎟️</div><p>No registrations yet</p></div>`;
+    return;
+  }
+  const statusColor={pending:'rgba(251,191,36,.15);rgba(251,191,36,.4);#fbbf24',confirmed:'rgba(74,222,128,.12);rgba(74,222,128,.35);#4ade80',cancelled:'rgba(248,113,113,.12);rgba(248,113,113,.35);#f87171'};
+
+  // Group by event
+  const byEvent={};
+  REGISTRATIONS.forEach(r=>{ if(!byEvent[r.event_title]) byEvent[r.event_title]=[]; byEvent[r.event_title].push(r); });
+
+  let html='';
+  Object.entries(byEvent).forEach(([evTitle, regs])=>{
+    html+=`<div style="margin-bottom:32px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-size:1.1rem">🎮</span>
+        <h3 style="font-size:.95rem;font-weight:700;color:#00e5ff">${esc(evTitle)}</h3>
+        <span style="font-size:.75rem;color:rgba(232,224,255,.35)">${regs.length} registrant${regs.length!==1?'s':''}</span>
+      </div>`;
+    regs.forEach(r=>{
+      const sc=(statusColor[r.status]||statusColor.pending).split(';');
+      html+=`<div id="reg-${r.id}" style="background:rgba(6,0,15,${r.read?'.45':'.85'});border:1px solid rgba(0,229,255,${r.read?'.1':'.3'});border-radius:12px;padding:18px 22px;margin-bottom:8px;transition:all .3s">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+              ${!r.read?'<span style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;box-shadow:0 0 6px #4ade80"></span>':''}
+              <span style="font-weight:700;color:#EDE0FF">${esc(r.name)}</span>
+              <a href="mailto:${esc(r.email)}" style="color:#00E5FF;font-size:.82rem;text-decoration:none">${esc(r.email)}</a>
+              <span style="font-size:.72rem;padding:2px 9px;border-radius:6px;background:${sc[0]};border:1px solid ${sc[1]};color:${sc[2]};font-weight:600">${r.status}</span>
+              <span style="color:rgba(232,224,255,.3);font-size:.74rem;margin-left:auto">${new Date(r.date).toLocaleString()}</span>
+            </div>
+            ${r.student_id?`<div style="font-size:.8rem;color:rgba(232,224,255,.4);margin-bottom:4px">ID: ${esc(r.student_id)}</div>`:''}
+            ${r.message?`<div style="font-size:.85rem;color:rgba(237,224,255,.6);font-style:italic">"${esc(r.message)}"</div>`:''}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+            ${r.status!=='confirmed'?`<button class="btn btn-sm" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80" onclick="setRegStatus(${r.id},'confirmed')">&#x2713; Confirm</button>`:''}
+            ${r.status!=='cancelled'?`<button class="btn btn-sm" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.28);color:#f87171" onclick="setRegStatus(${r.id},'cancelled')">&#x2715; Cancel</button>`:''}
+            ${!r.read?`<button class="btn btn-outline btn-sm" onclick="markRegRead(${r.id})">Mark Read</button>`:''}
+            <a href="mailto:${esc(r.email)}?subject=Re: ${esc(r.event_title)} Registration" class="btn btn-outline btn-sm" style="text-decoration:none;text-align:center">Reply</a>
+            <button class="btn btn-danger btn-sm" onclick="deleteReg(${r.id})">Delete</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+
+async function setRegStatus(id,status){
+  const r=await fetch(`${API}/api/registrations/${id}`,{method:'PATCH',headers:ah(),body:JSON.stringify({status,read:true})});
+  if(r.ok){const reg=REGISTRATIONS.find(x=>x.id===id);if(reg){reg.status=status;reg.read=true;}renderRegistrations();updateRegBadge();renderDashboard();toast(`Registration ${status}`,'success');}
+  else toast('Error updating','error');
+}
+async function markRegRead(id){
+  const r=await fetch(`${API}/api/registrations/${id}`,{method:'PATCH',headers:ah(),body:JSON.stringify({read:true})});
+  if(r.ok){const reg=REGISTRATIONS.find(x=>x.id===id);if(reg)reg.read=true;renderRegistrations();updateRegBadge();}
+}
+async function deleteReg(id){
+  if(!confirm('Delete this registration?')) return;
+  const r=await fetch(`${API}/api/registrations/${id}`,{method:'DELETE',headers:ah()});
+  if(r.ok){REGISTRATIONS=REGISTRATIONS.filter(x=>x.id!==id);renderRegistrations();updateRegBadge();renderDashboard();toast('Deleted','success');}
+  else toast('Error deleting','error');
+}
+
+// Analytics
+function renderAnalytics(){
+  const totalApps=APPLICATIONS.length;
+  const pendingApps=APPLICATIONS.filter(a=>a.status==='pending').length;
+  const acceptedApps=APPLICATIONS.filter(a=>a.status==='accepted').length;
+  const totalRegs=REGISTRATIONS.length;
+  const totalMsgs=MESSAGES.length;
+  const acceptRate=totalApps?Math.round(acceptedApps/totalApps*100):0;
+  const kpiEl=document.getElementById('an-kpis');
+  if(kpiEl) kpiEl.innerHTML=`
+    <div class="an-kpi"><div class="an-kpi-num">${totalApps}</div><div class="an-kpi-lbl">Total Applications</div></div>
+    <div class="an-kpi"><div class="an-kpi-num" style="color:#f59e0b">${pendingApps}</div><div class="an-kpi-lbl">Pending Review</div></div>
+    <div class="an-kpi"><div class="an-kpi-num" style="color:#10b981">${acceptedApps}</div><div class="an-kpi-lbl">Accepted</div></div>
+    <div class="an-kpi"><div class="an-kpi-num" style="color:#00e5ff">${totalRegs}</div><div class="an-kpi-lbl">Event Registrations</div></div>
+    <div class="an-kpi"><div class="an-kpi-num" style="color:#a78bfa">${totalMsgs}</div><div class="an-kpi-lbl">Messages</div></div>
+    <div class="an-kpi"><div class="an-kpi-num" style="color:#10b981">${acceptRate}%</div><div class="an-kpi-lbl">Acceptance Rate</div></div>
+  `;
+  const progMap={};
+  APPLICATIONS.forEach(a=>{const k=a.program||'Unknown';progMap[k]=(progMap[k]||0)+1;});
+  const progMax=Math.max(1,...Object.values(progMap));
+  const progEl=document.getElementById('an-app-prog');
+  if(progEl) progEl.innerHTML=Object.entries(progMap).sort((a,b)=>b[1]-a[1]).map(([prog,cnt])=>`
+    <div class="bar-item">
+      <div class="bar-label">${prog}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/progMax*100)}%;background:linear-gradient(90deg,#a78bfa,#7c3aed)"></div></div>
+      <div style="min-width:28px;text-align:right;font-size:13px;color:#e2e8f0">${cnt}</div>
+    </div>`).join('')||'<p style="color:#64748b;padding:12px 0">No applications yet</p>';
+  const appStatusColors={pending:'#f59e0b',accepted:'#10b981',rejected:'#ef4444'};
+  const appStatMap={};
+  APPLICATIONS.forEach(a=>{const k=a.status||'pending';appStatMap[k]=(appStatMap[k]||0)+1;});
+  const appStatEl=document.getElementById('an-app-status');
+  if(appStatEl) appStatEl.innerHTML=
+    (Object.entries(appStatMap).map(([s,c])=>`<div class="s-pill" style="background:${appStatusColors[s]||'#64748b'}20;border:1px solid ${appStatusColors[s]||'#64748b'};color:${appStatusColors[s]||'#94a3b8'}"><span style="font-size:22px;font-weight:700">${c}</span><span style="font-size:11px;text-transform:uppercase;letter-spacing:1px">${s}</span></div>`).join(''))||'<p style="color:#64748b">No data</p>';
+  const regStatusColors={pending:'#f59e0b',confirmed:'#10b981',cancelled:'#ef4444'};
+  const regStatMap={};
+  REGISTRATIONS.forEach(r=>{const k=r.status||'pending';regStatMap[k]=(regStatMap[k]||0)+1;});
+  const regStatEl=document.getElementById('an-reg-status');
+  if(regStatEl) regStatEl.innerHTML=
+    (Object.entries(regStatMap).map(([s,c])=>`<div class="s-pill" style="background:${regStatusColors[s]||'#64748b'}20;border:1px solid ${regStatusColors[s]||'#64748b'};color:${regStatusColors[s]||'#94a3b8'}"><span style="font-size:22px;font-weight:700">${c}</span><span style="font-size:11px;text-transform:uppercase;letter-spacing:1px">${s}</span></div>`).join(''))||'<p style="color:#64748b">No data</p>';
+  const evMap={};
+  REGISTRATIONS.forEach(r=>{const k=r.event_title||'Unknown';evMap[k]=(evMap[k]||0)+1;});
+  const evMax=Math.max(1,...Object.values(evMap));
+  const evEl=document.getElementById('an-reg-event');
+  if(evEl) evEl.innerHTML=Object.entries(evMap).sort((a,b)=>b[1]-a[1]).map(([ev,cnt])=>`
+    <div class="bar-item">
+      <div class="bar-label">${ev}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(cnt/evMax*100)}%;background:linear-gradient(90deg,#00e5ff,#0044ff)"></div></div>
+      <div style="min-width:28px;text-align:right;font-size:13px;color:#e2e8f0">${cnt}</div>
+    </div>`).join('')||'<p style="color:#64748b;padding:12px 0">No registrations yet</p>';
+  const now=new Date();
+  const days=[];
+  for(let i=13;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push(d);}
+  const dayKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const counts=days.map(d=>{
+    const k=dayKey(d);
+    const apps=APPLICATIONS.filter(a=>a.date&&dayKey(new Date(a.date))===k).length;
+    const regs=REGISTRATIONS.filter(r=>r.date&&dayKey(new Date(r.date))===k).length;
+    const msgs=MESSAGES.filter(m=>m.date&&dayKey(new Date(m.date))===k).length;
+    return {d,apps,regs,msgs,total:apps+regs+msgs};
+  });
+  const maxTotal=Math.max(1,...counts.map(c=>c.total));
+  const sparkEl=document.getElementById('an-spark');
+  const sparkLbl=document.getElementById('an-spark-lbl');
+  if(sparkEl) sparkEl.innerHTML=counts.map(c=>`
+    <div class="spark-bar-item" title="${dayKey(c.d)}: ${c.apps} apps, ${c.regs} regs, ${c.msgs} msgs">
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:1px">
+        <div style="height:${Math.round(c.msgs/maxTotal*60)}px;background:#a78bfa;border-radius:2px 2px 0 0;min-height:${c.msgs?2:0}px"></div>
+        <div style="height:${Math.round(c.regs/maxTotal*60)}px;background:#00e5ff;min-height:${c.regs?2:0}px"></div>
+        <div style="height:${Math.round(c.apps/maxTotal*60)}px;background:#10b981;min-height:${c.apps?2:0}px"></div>
+      </div>
+    </div>`).join('');
+  const shortDay=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  if(sparkLbl) sparkLbl.innerHTML=counts.map(c=>`<span>${shortDay[c.d.getDay()]}</span>`).join('');
+  const legendEl=document.getElementById('an-spark-legend');
+  if(legendEl) legendEl.innerHTML=`
+    <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#10b981;border-radius:2px;display:inline-block"></span>Applications</span>
+    <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#00e5ff;border-radius:2px;display:inline-block"></span>Registrations</span>
+    <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;background:#a78bfa;border-radius:2px;display:inline-block"></span>Messages</span>
+  `;
+  const feed=[
+    ...APPLICATIONS.map(a=>({date:new Date(a.date||0),text:`Application from ${a.name} for ${a.program}`,icon:'📋'})),
+    ...REGISTRATIONS.map(r=>({date:new Date(r.date||0),text:`${r.name} registered for "${r.event_title}"`,icon:'📝'})),
+    ...MESSAGES.map(m=>({date:new Date(m.date||0),text:`Message from ${m.name}: "${(m.message||'').slice(0,50)}${(m.message||'').length>50?'…':''}"`,icon:'✉️'}))
+  ].sort((a,b)=>b.date-a.date).slice(0,20);
+  const feedEl=document.getElementById('an-feed');
+  if(feedEl) feedEl.innerHTML=feed.length?feed.map(f=>`
+    <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #1e293b">
+      <span style="font-size:18px">${f.icon}</span>
+      <div style="flex:1"><div style="color:#e2e8f0;font-size:13px">${f.text}</div><div style="color:#64748b;font-size:11px;margin-top:3px">${f.date.toLocaleString()}</div></div>
+    </div>`).join(''):'<p style="color:#64748b;padding:16px 0">No activity yet</p>';
+}
+
+// Applications
+function renderApplications(){
+  const el=document.getElementById('applications-list');
+  if(!el) return;
+  if(!APPLICATIONS.length){
+    el.innerHTML=`<div style="text-align:center;padding:60px;color:rgba(232,224,255,.3)"><div style="font-size:3rem;margin-bottom:12px">📋</div><p>No applications yet</p></div>`;
+    return;
+  }
+  const statusColor={pending:'rgba(251,191,36,.15);border-color:rgba(251,191,36,.4);color:#fbbf24',accepted:'rgba(74,222,128,.12);border-color:rgba(74,222,128,.35);color:#4ade80',rejected:'rgba(248,113,113,.12);border-color:rgba(248,113,113,.35);color:#f87171'};
+  el.innerHTML=APPLICATIONS.map(a=>{
+    const sc=statusColor[a.status]||statusColor.pending;
+    const [bg,bc,tc]=sc.split(';').map(s=>s.split(':')[1]);
+    return`<div id="app-${a.id}" style="background:rgba(6,0,15,${a.read?'.45':'.85'});border:1px solid rgba(191,0,255,${a.read?'.12':'.35'});border-radius:14px;padding:22px 26px;margin-bottom:12px;transition:all .3s">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+            ${!a.read?'<span style="width:8px;height:8px;border-radius:50%;background:#00e5ff;flex-shrink:0;box-shadow:0 0 8px #00e5ff"></span>':''}
+            <span style="font-weight:700;color:#EDE0FF;font-size:1rem">${esc(a.name)}</span>
+            <a href="mailto:${esc(a.email)}" style="color:#00E5FF;font-size:.82rem;text-decoration:none">${esc(a.email)}</a>
+            <span style="font-size:.72rem;padding:3px 10px;border-radius:8px;background:${bg};border:1px solid ${bc};color:${tc};font-weight:600">${a.status}</span>
+            <span style="color:rgba(232,224,255,.3);font-size:.75rem;margin-left:auto">${new Date(a.date).toLocaleString()}</span>
+          </div>
+          <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px">
+            <span style="font-size:.82rem;color:rgba(232,224,255,.6)">&#x1F3AE; <b>${esc(a.program)}</b></span>
+            ${a.major?`<span style="font-size:.82rem;color:rgba(232,224,255,.45)">&#x1F4DA; ${esc(a.major)}</span>`:''}
+            ${a.year_level?`<span style="font-size:.82rem;color:rgba(232,224,255,.45)">&#x1F393; ${esc(a.year_level)}</span>`:''}
+            ${a.student_id?`<span style="font-size:.82rem;color:rgba(232,224,255,.35)">ID: ${esc(a.student_id)}</span>`:''}
+          </div>
+          ${a.message?`<div style="color:rgba(237,224,255,.65);font-size:.88rem;line-height:1.65;white-space:pre-wrap;background:rgba(191,0,255,.05);border-left:3px solid rgba(191,0,255,.3);padding:10px 14px;border-radius:0 8px 8px 0">${esc(a.message)}</div>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;flex-shrink:0">
+          ${a.status!=='accepted'?`<button class="btn btn-sm" style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80" onclick="setAppStatus(${a.id},'accepted')">&#x2713; Accept</button>`:''}
+          ${a.status!=='rejected'?`<button class="btn btn-sm" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.28);color:#f87171" onclick="setAppStatus(${a.id},'rejected')">&#x2715; Reject</button>`:''}
+          ${!a.read?`<button class="btn btn-outline btn-sm" onclick="markAppRead(${a.id})">Mark Read</button>`:''}
+          <a href="mailto:${esc(a.email)}?subject=Re: GIC Application - ${esc(a.program)}" class="btn btn-outline btn-sm" style="text-decoration:none;text-align:center">Reply</a>
+          <button class="btn btn-danger btn-sm" onclick="deleteApp(${a.id})">Delete</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function setAppStatus(id,status){
+  const r=await fetch(`${API}/api/applications/${id}`,{method:'PATCH',headers:ah(),body:JSON.stringify({status,read:true})});
+  if(r.ok){
+    const a=APPLICATIONS.find(x=>x.id===id);
+    if(a){a.status=status;a.read=true;}
+    renderApplications();updateApplyBadge();renderDashboard();
+    toast(`Application ${status}`,'success');
+  } else toast('Error updating','error');
+}
+
+async function markAppRead(id){
+  const r=await fetch(`${API}/api/applications/${id}`,{method:'PATCH',headers:ah(),body:JSON.stringify({read:true})});
+  if(r.ok){
+    const a=APPLICATIONS.find(x=>x.id===id);
+    if(a) a.read=true;
+    renderApplications();updateApplyBadge();
+  }
+}
+
+async function deleteApp(id){
+  if(!confirm('Delete this application?')) return;
+  const r=await fetch(`${API}/api/applications/${id}`,{method:'DELETE',headers:ah()});
+  if(r.ok){APPLICATIONS=APPLICATIONS.filter(x=>x.id!==id);renderApplications();updateApplyBadge();renderDashboard();toast('Deleted','success');}
+  else toast('Error deleting','error');
+}
+
+function empty(msg){return`<div style="text-align:center;padding:60px 20px;color:rgba(232,224,255,.3);grid-column:1/-1"><div style="font-size:2.5rem;margin-bottom:10px">📭</div><p>${msg}</p></div>`;}
+function toast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';setTimeout(()=>t.className='toast',3000);}
+
+document.getElementById('pwInput').addEventListener('keydown',e=>{if(e.key==='Enter')login();});
+</script>
+</body>
+</html>
