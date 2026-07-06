@@ -963,9 +963,9 @@ function openAddSection(){
   document.getElementById('ns-subtitle').value='';
   document.getElementById('ns-type').value='text';
   updateSectionTypeFields();
-  document.getElementById('addSectionModal').style.display='flex';
+  document.getElementById('addSectionModal').classList.add('open');
 }
-function closeAddSection(){ document.getElementById('addSectionModal').style.display='none'; }
+function closeAddSection(){ document.getElementById('addSectionModal').classList.remove('open'); }
 
 function updateSectionTypeFields(){
   const type = document.getElementById('ns-type').value;
@@ -1028,9 +1028,9 @@ function openEditSection(id){
     const html = (s.content&&s.content[0]&&s.content[0].html)||'';
     wrap.innerHTML=`<div class="field"><label>Custom HTML</label><textarea id="es-content-html" rows="8" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(191,0,255,.22);border-radius:10px;color:#e8e0ff;font-size:.85rem;font-family:monospace;outline:none;resize:vertical">${esc(html)}</textarea></div>`;
   } else { wrap.innerHTML=''; }
-  document.getElementById('editSectionModal').style.display='flex';
+  document.getElementById('editSectionModal').classList.add('open');
 }
-function closeEditSection(){ document.getElementById('editSectionModal').style.display='none'; editingSectionId=null; }
+function closeEditSection(){ document.getElementById('editSectionModal').classList.remove('open'); editingSectionId=null; }
 
 async function saveEditSection(){
   const id = editingSectionId;
