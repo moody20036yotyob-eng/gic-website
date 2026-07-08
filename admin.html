@@ -543,7 +543,7 @@ const FORMS={
   'news-item':{title:'News Item',section:'news',fields:[{k:'title',l:'Title',t:'text'},{k:'date',l:'Date (e.g. Jul 2026)',t:'text'},{k:'tag',l:'Tag (Event / Award / Publication)',t:'text'},{k:'desc',l:'Description',t:'textarea'}]},
   event:{title:'Event',section:'events',fields:[{k:'title',l:'Title',t:'text'},{k:'year',l:'Year',t:'text'},{k:'date',l:'Date (e.g. May 14, 2026)',t:'text'},{k:'type',l:'Type (Exhibit / Competition / Bootcamp)',t:'text'},{k:'desc',l:'Description',t:'textarea'}]},
   'faq-item':{title:'FAQ',section:'faq',fields:[{k:'q',l:'Question',t:'text'},{k:'a',l:'Answer',t:'textarea'}]},
-  'team-member':{title:'Team Member',section:'team',fields:[{k:'name',l:'Full Name',t:'text'},{k:'role',l:'Role',t:'text'},{k:'initials',l:'Initials',t:'initials'},{k:'category',l:'Category',t:'select',options:[{v:'director',l:'Lab Director'},{v:'assistant',l:'Lab Assistant'},{v:'faculty',l:'Faculty Affiliate'},{v:'student',l:'Student Affiliate (GDC)'}]}]},
+  'team-member':{title:'Team Member',section:'team',fields:[{k:'name',l:'Full Name',t:'text'},{k:'role',l:'Role',t:'text'},{k:'initials',l:'Initials',t:'initials'},{k:'category',l:'Category',t:'select',options:[{v:'director',l:'Lab Director'},{v:'assistant',l:'Lab Assistant'},{v:'faculty',l:'Faculty Affiliate'},{v:'student',l:'Student Affiliate (GDC)'}]},{k:'photo',l:'Profile Photo',t:'photo'}]},
 };
 
 function openModal(type,data){
@@ -559,6 +559,8 @@ function openModal(type,data){
         ?`<select id="mf-${field.k}" style="width:100%;padding:10px 14px;background:#1a1025;border:1px solid rgba(191,0,255,.3);border-radius:10px;color:#EDE0FF;font-size:.95rem;outline:none">${field.options.map(o=>`<option value="${o.v}"${(data?.[field.k]||'')=== o.v?' selected':''}>${o.l}</option>`).join('')}</select>`
         :field.t==='initials'
         ?`<input id="mf-${field.k}" type="text" maxlength="3" value="${(data?.[field.k]||'').toString().replace(/"/g,'&quot;')}" placeholder="Auto-filled from name" style="text-transform:uppercase"/>`
+        :field.t==='photo'
+        ?`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">${data?.[field.k]?`<img id="mf-photo-preview" src="${data[field.k]}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(191,0,255,.4)" onerror="this.style.display='none'"/>`:`<div id="mf-photo-preview" style="width:64px;height:64px;border-radius:50%;background:rgba(191,0,255,.2);display:flex;align-items:center;justify-content:center;color:#bf00ff;font-size:1.5rem">👤</div>`}<div style="flex:1"><input id="mf-photo" type="file" accept="image/*" style="display:none" onchange="previewPhoto(this)"/><button type="button" onclick="document.getElementById('mf-photo').click()" style="padding:8px 16px;background:rgba(191,0,255,.15);border:1px solid rgba(191,0,255,.4);border-radius:8px;color:#EDE0FF;cursor:pointer;font-size:.9rem">Choose Photo</button><span id="mf-photo-name" style="margin-left:8px;color:#a080c0;font-size:.85rem">${data?.[field.k]?'Photo uploaded':'No file chosen'}</span><input id="mf-photo-url" type="hidden" value="${data?.[field.k]||''}"/></div></div>`
         :`<input id="mf-${field.k}" type="text" value="${(data?.[field.k]||'').toString().replace(/"/g,'&quot;')}"/>`}
     </div>`).join('');
   document.getElementById('modal').classList.add('open');
@@ -578,10 +580,35 @@ function openModal(type,data){
 
 function closeModal(){document.getElementById('modal').classList.remove('open');editingId=null;editingType=null;}
 
+function previewPhoto(input){
+  const file=input.files[0]; if(!file) return;
+  document.getElementById('mf-photo-name').textContent=file.name;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const prev=document.getElementById('mf-photo-preview');
+    prev.outerHTML=`<img id="mf-photo-preview" src="${e.target.result}" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(191,0,255,.4)"/>`;
+  };
+  reader.readAsDataURL(file);
+}
+
 async function modalSave(){
   const f=FORMS[editingType];
+  // Upload photo if a file was selected
+  const photoInput=document.getElementById('mf-photo');
+  if(photoInput&&photoInput.files[0]){
+    const fd=new FormData();
+    fd.append('file',photoInput.files[0]);
+    const up=await fetch(`${API}/api/upload`,{method:'POST',headers:{'Authorization':'Bearer '+localStorage.getItem('gic_token')},body:fd});
+    if(!up.ok){alert('Photo upload failed');return;}
+    const {url:photoUrl}=await up.json();
+    document.getElementById('mf-photo-url').value=photoUrl;
+  }
   const body={};
   f.fields.forEach(field=>{
+    if(field.t==='photo'){
+      body[field.k]=document.getElementById('mf-photo-url')?.value||'';
+      return;
+    }
     const v=document.getElementById('mf-'+field.k)?.value?.trim()||'';
     body[field.k]=(editingType==='event'&&field.k==='year')?parseInt(v)||new Date().getFullYear():v;
   });
