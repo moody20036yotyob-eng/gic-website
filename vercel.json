@@ -6,9 +6,7 @@
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "index.html",
-          "admin.html",
-          "student.html",
+          "*.html",
           "sitemap.xml",
           "robots.txt",
           "logo3.png",
