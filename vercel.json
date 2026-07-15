@@ -11,6 +11,7 @@
           "student.html",
           "sitemap.xml",
           "robots.txt",
+          "logo3.png",
           "*.png",
           "*.jpg",
           "*.jpeg",
@@ -22,7 +23,23 @@
           "*.mp4",
           "*.woff",
           "*.woff2",
-          "logo3.png"
+          "frames222/**",
+          "campanies logos/**",
+          "char/**",
+          "fac/**",
+          "savvy pics/**",
+          "1/**",
+          "2/**",
+          "3/**",
+          "4/**",
+          "5/**",
+          "6/**",
+          "7/**",
+          "8/**",
+          "9/**",
+          "10/**",
+          "11/**",
+          "12/**"
         ]
       }
     }
