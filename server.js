@@ -233,8 +233,8 @@ async function getContent() {
   };
 }
 
-// ── Server ────────────────────────────────────────────────────────────────────
-const server = http.createServer(async (req, res) => {
+// ── Request handler ───────────────────────────────────────────────────────────
+const handler = async (req, res) => {
   const ip       = getIP(req);
   const parsed   = new URL(req.url, `http://localhost:${PORT}`);
   const pathname = parsed.pathname;
@@ -688,11 +688,17 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': cacheControl });
     fs.createReadStream(filePath).pipe(res);
   });
-});
+};
 
-server.listen(PORT, () => {
-  console.log(`\n  ✓ GIC Server      http://localhost:${PORT}`);
-  console.log(`  ✓ Admin panel     http://localhost:${PORT}/admin.html`);
-  console.log(`  ✓ Database        Supabase (${SUPABASE_URL})`);
-  console.log(`  ✓ Email sender    ${emailCfg.sender || '(not configured)'}\n`);
-});
+// Local dev — start HTTP server
+if (require.main === module) {
+  http.createServer(handler).listen(PORT, () => {
+    console.log(`\n  ✓ GIC Server      http://localhost:${PORT}`);
+    console.log(`  ✓ Admin panel     http://localhost:${PORT}/admin.html`);
+    console.log(`  ✓ Database        Supabase (${SUPABASE_URL})`);
+    console.log(`  ✓ Email sender    ${emailCfg.sender || '(not configured)'}\n`);
+  });
+}
+
+// Vercel serverless export
+module.exports = handler;
