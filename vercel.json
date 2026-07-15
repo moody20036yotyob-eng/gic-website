@@ -1,7 +1,31 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" }
+    {
+      "src": "server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "index.html",
+          "admin.html",
+          "student.html",
+          "sitemap.xml",
+          "robots.txt",
+          "*.png",
+          "*.jpg",
+          "*.jpeg",
+          "*.webp",
+          "*.gif",
+          "*.svg",
+          "*.ico",
+          "*.css",
+          "*.mp4",
+          "*.woff",
+          "*.woff2",
+          "logo3.png"
+        ]
+      }
+    }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/server.js" }
