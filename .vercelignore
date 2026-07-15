@@ -3,3 +3,5 @@ email.config.json
 migrate.js
 team-photos/
 node_modules/
+.env.local
+*.zip
