@@ -70,17 +70,46 @@ function sanitize(str) {
   if (typeof str !== 'string') return '';
   return str.replace(/[<>]/g, '').trim().slice(0, 2000);
 }
-function securityHeaders(res) {
-  res.setHeader('X-Content-Type-Options',   'nosniff');
-  res.setHeader('X-Frame-Options',          'SAMEORIGIN');
-  res.setHeader('X-XSS-Protection',         '1; mode=block');
-  res.setHeader('Referrer-Policy',          'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy',       'camera=(), microphone=(), geolocation=()');
+const ALLOWED_ORIGINS = [
+  'http://localhost:5555',
+  'https://gic.alfaisal.edu',
+];
+function securityHeaders(res, isApi = false) {
+  res.setHeader('X-Content-Type-Options',            'nosniff');
+  res.setHeader('X-Frame-Options',                   'DENY');
+  res.setHeader('X-XSS-Protection',                  '1; mode=block');
+  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+  res.setHeader('Referrer-Policy',                   'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy',                'camera=(), microphone=(), geolocation=(), payment=()');
+  res.setHeader('Strict-Transport-Security',         'max-age=31536000; includeSubDomains; preload');
+  if (!isApi) {
+    res.setHeader('Content-Security-Policy', [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: blob:",
+      "connect-src 'self'",
+      "media-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+      "upgrade-insecure-requests",
+    ].join('; '));
+  }
 }
-function cors(res) {
-  res.setHeader('Access-Control-Allow-Origin',  '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+function cors(res, req) {
+  const origin = req?.headers?.origin || '';
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin',  origin);
+    res.setHeader('Vary', 'Origin');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', ALLOWED_ORIGINS[0]);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Max-Age',       '86400');
 }
 function json(res, data, status = 200) {
   res.writeHead(status, { 'Content-Type': 'application/json' });
@@ -210,8 +239,9 @@ const server = http.createServer(async (req, res) => {
   const parsed   = new URL(req.url, `http://localhost:${PORT}`);
   const pathname = parsed.pathname;
 
-  securityHeaders(res);
-  cors(res);
+  const isApi = pathname.startsWith('/api/');
+  securityHeaders(res, isApi);
+  cors(res, req);
 
   if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
   // Rate-limit only API write/auth endpoints — not static files or public reads
@@ -239,6 +269,52 @@ const server = http.createServer(async (req, res) => {
       const token = (req.headers['authorization']||'').replace('Bearer ','');
       activeSessions.delete(token);
       return json(res, { ok: true });
+    }
+
+    // POST /api/upload (admin — upload team photo)
+    if (pathname === '/api/upload' && req.method === 'POST') {
+      if (!checkAuth(req)) return json(res, { error: 'Unauthorized' }, 401);
+      const ct = req.headers['content-type'] || '';
+      if (!ct.includes('multipart/form-data')) return json(res, { error: 'Must be multipart/form-data' }, 400);
+      const boundary = ct.split('boundary=')[1];
+      if (!boundary) return json(res, { error: 'No boundary' }, 400);
+      const buf = await new Promise((resolve, reject) => {
+        const chunks = [];
+        req.on('data', c => chunks.push(c));
+        req.on('end', () => resolve(Buffer.concat(chunks)));
+        req.on('error', reject);
+      });
+      const boundaryBuf = Buffer.from('--' + boundary);
+      const parts = [];
+      let start = 0;
+      while (true) {
+        const idx = buf.indexOf(boundaryBuf, start);
+        if (idx === -1) break;
+        if (start > 0) parts.push(buf.slice(start, idx - 2));
+        start = idx + boundaryBuf.length + 2;
+      }
+      let filePath = null;
+      for (const part of parts) {
+        const headerEnd = part.indexOf('\r\n\r\n');
+        if (headerEnd === -1) continue;
+        const headers = part.slice(0, headerEnd).toString();
+        if (!headers.includes('filename=')) continue;
+        const filenameMatch = headers.match(/filename="([^"]+)"/);
+        if (!filenameMatch) continue;
+        const origName = filenameMatch[1];
+        const ext = path.extname(origName).toLowerCase();
+        if (!['.jpg','.jpeg','.png','.webp','.gif'].includes(ext)) return json(res, { error: 'Invalid file type' }, 400);
+        const data = part.slice(headerEnd + 4);
+        if (data.length > 5 * 1024 * 1024) return json(res, { error: 'File too large (max 5MB)' }, 400);
+        const uploadDir = path.join(ROOT, 'team-photos');
+        if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+        const fname = Date.now() + '_' + Math.random().toString(36).slice(2) + ext;
+        fs.writeFileSync(path.join(uploadDir, fname), data);
+        filePath = 'team-photos/' + fname;
+        break;
+      }
+      if (!filePath) return json(res, { error: 'No file found' }, 400);
+      return json(res, { url: filePath });
     }
 
     // GET /api/content (public)
@@ -588,8 +664,12 @@ const server = http.createServer(async (req, res) => {
 
   if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Forbidden'); return; }
 
-  const blocked = ['server.js','email.config.json','migrate.js','package.json','package-lock.json'];
-  if (blocked.includes(path.basename(filePath))) { res.writeHead(403); res.end('Forbidden'); return; }
+  const blocked = ['server.js','email.config.json','migrate.js','package.json','package-lock.json','.env'];
+  const basename = path.basename(filePath);
+  if (blocked.includes(basename) || basename.startsWith('.')) { res.writeHead(403); res.end('Forbidden'); return; }
+
+  const IMMUTABLE_EXTS = new Set(['.png','.jpg','.jpeg','.webp','.gif','.svg','.ico','.woff','.woff2','.ttf','.mp4']);
+  const NOCACHE_FILES  = new Set(['index.html','admin.html','sitemap.xml','robots.txt']);
 
   fs.stat(filePath, (err, stat) => {
     if (err || !stat.isFile()) {
@@ -599,7 +679,13 @@ const server = http.createServer(async (req, res) => {
     }
     const ext  = path.extname(filePath).toLowerCase();
     const mime = MIME_MAP[ext] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': mime });
+    const file = path.basename(filePath);
+    const cacheControl = NOCACHE_FILES.has(file)
+      ? 'no-cache, must-revalidate'
+      : IMMUTABLE_EXTS.has(ext)
+      ? 'public, max-age=31536000, immutable'
+      : 'public, max-age=3600';
+    res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': cacheControl });
     fs.createReadStream(filePath).pipe(res);
   });
 });
