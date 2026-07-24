@@ -141,8 +141,13 @@ NOT FOUND: Broadcast &amp; Recording NOT FOUND: Robotics Bay NOT FOUND: Game Dev
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="dns-prefetch" href="https://cdn.tailwindcss.com"/>
+<link rel="preload" href="frames222/ezgif-frame-001.png" as="image"/>
+<link rel="preload" href="frames222/ezgif-frame-002.png" as="image"/>
+<link rel="preload" href="frames222/ezgif-frame-003.png" as="image"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com" defer></script>
 <script>tailwind.config={theme:{extend:{colors:{'hr':'#BF00FF','hp':'#00E5FF','hd':'#06000F','hc':'#EDE0FF','hm':'#FF00CC','hb':'#4400FF'},fontFamily:{playfair:['"Playfair Display"','serif'],inter:['Inter','sans-serif']}}}}</script>
 <style>
 :root{--rose:#BF00FF;--pink:#00E5FF;--magenta:#FF00CC;--blue:#4400FF;--dark:#06000F;--cream:#EDE0FF;--violet:#1A0040}
@@ -1275,7 +1280,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //
 (function(){
   const FRAME_COUNT = 226;
-  const READY_AT = 226;
+  const READY_AT = 8;
   const FRAME_PATH = i => `frames222/ezgif-frame-${String(i).padStart(3,'0')}.png`;
 
   const canvas = document.getElementById('bg-canvas');
